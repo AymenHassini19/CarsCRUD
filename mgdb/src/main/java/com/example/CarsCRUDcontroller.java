@@ -96,6 +96,8 @@ public class CarsCRUDcontroller {
 
         private void populateTable() {
         
+        carsList.clear();
+        
         try (MongoClient mongoClient = MongoClients.create(URI)) {
             MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
             MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
@@ -125,6 +127,51 @@ public class CarsCRUDcontroller {
 
     @FXML
     void insertCar(ActionEvent event) {
+
+    String brand = brandTextField.getText().trim();
+    String model = modelTextField.getText().trim();
+    String color = colorTextField.getText().trim();
+    String yearText = yearTextField.getText().trim();
+    String priceText = priceTextFIeld.getText().trim();
+
+
+    if (brand.isEmpty() || model.isEmpty() || color.isEmpty() || yearText.isEmpty() || priceText.isEmpty()) {
+        System.out.println("All fields must be filled out.");
+        return;
+    }
+
+    try {
+        int year = Integer.parseInt(yearText);
+        double price = Double.parseDouble(priceText);
+
+        Car newCar = new Car(brand, model, color, year, price);
+
+        try (MongoClient mongoClient = MongoClients.create(URI)) {
+            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+
+            Document newCarDoc = new Document("brand", newCar.getBrand())
+                    .append("model", newCar.getModel())
+                    .append("color", newCar.getColor())
+                    .append("year", newCar.getYear())
+                    .append("price", newCar.getPrice());
+
+            collection.insertOne(newCarDoc);
+            System.out.println("Car inserted successfully!");
+        }
+
+        brandTextField.clear();
+        modelTextField.clear();
+        colorTextField.clear();
+        yearTextField.clear();
+        priceTextFIeld.clear();
+
+        populateTable();
+
+    } catch (NumberFormatException e) {
+        
+        System.out.println("Year or Price must be a valid number.");
+    }
 
     }
 
