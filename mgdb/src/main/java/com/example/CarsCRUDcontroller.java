@@ -268,6 +268,71 @@ public class CarsCRUDcontroller {
     @FXML
     void updateCar(ActionEvent event) {
 
+    Car selectedCar = table.getSelectionModel().getSelectedItem();
+    
+    if (selectedCar != null) {
+
+        String brand = brandTextField.getText().trim();
+        String model = modelTextField.getText().trim();
+        String color = colorTextField.getText().trim();
+        String yearText = yearTextField.getText().trim();
+        String priceText = priceTextFIeld.getText().trim();
+
+
+        if (brand.isEmpty() || model.isEmpty() || color.isEmpty() || yearText.isEmpty() || priceText.isEmpty()) {
+            System.out.println("All fields must be filled out.");
+            return;
+        }
+
+        try {
+
+            int year = Integer.parseInt(yearText);
+            double price = Double.parseDouble(priceText);
+
+
+            Car updatedCar = new Car(brand, model, color, year, price);
+
+
+            try (MongoClient mongoClient = MongoClients.create(URI)) {
+                MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+                MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+
+
+                Document query = new Document("brand", selectedCar.getBrand())
+                        .append("model", selectedCar.getModel())
+                        .append("color", selectedCar.getColor())
+                        .append("year", selectedCar.getYear())
+                        .append("price", selectedCar.getPrice());
+
+
+                Document update = new Document("$set", new Document("brand", updatedCar.getBrand())
+                        .append("model", updatedCar.getModel())
+                        .append("color", updatedCar.getColor())
+                        .append("year", updatedCar.getYear())
+                        .append("price", updatedCar.getPrice()));
+
+
+                collection.updateOne(query, update);
+                System.out.println("Car updated successfully!");
+
+
+                populateTable();
+
+
+                brandTextField.clear();
+                modelTextField.clear();
+                colorTextField.clear();
+                yearTextField.clear();
+                priceTextFIeld.clear();
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Year or Price must be a valid number.");
+        }
+    } else {
+        System.out.println("No car selected to update.");
+    }
+
     }
 
 }
