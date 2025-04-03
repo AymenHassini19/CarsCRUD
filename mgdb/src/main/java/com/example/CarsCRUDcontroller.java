@@ -123,6 +123,43 @@ public class CarsCRUDcontroller {
     @FXML
     void deleteCar(ActionEvent event) {
 
+    Car selectedCar = table.getSelectionModel().getSelectedItem();
+    
+    if (selectedCar != null) {
+
+        System.out.println("Deleting car: " + selectedCar.getBrand() + " " + selectedCar.getModel());
+
+        try (MongoClient mongoClient = MongoClients.create(URI)) {
+            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+
+
+            Document query = new Document("brand", selectedCar.getBrand())
+                    .append("model", selectedCar.getModel())
+                    .append("color", selectedCar.getColor())
+                    .append("year", selectedCar.getYear())
+                    .append("price", selectedCar.getPrice());
+
+
+            collection.deleteOne(query);
+            System.out.println("Car deleted successfully!");
+
+
+            brandTextField.clear();
+            modelTextField.clear();
+            colorTextField.clear();
+            yearTextField.clear();
+            priceTextFIeld.clear();
+
+            populateTable();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } else {
+        System.out.println("No car selected to delete.");
+    }
+
     }
 
     @FXML
@@ -169,7 +206,7 @@ public class CarsCRUDcontroller {
         populateTable();
 
     } catch (NumberFormatException e) {
-        
+
         System.out.println("Year or Price must be a valid number.");
     }
 
