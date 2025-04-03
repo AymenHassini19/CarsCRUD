@@ -23,6 +23,8 @@ import org.bson.Document;
 
 public class CarsCRUDcontroller {
 
+    ObservableList<Car> carsList = FXCollections.observableArrayList();
+
     @FXML
     private TableColumn<?, ?> brandColumn;
 
@@ -93,7 +95,6 @@ public class CarsCRUDcontroller {
     }
 
         private void populateTable() {
-        ObservableList<Car> carsList = FXCollections.observableArrayList();
         
         try (MongoClient mongoClient = MongoClients.create(URI)) {
             MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
@@ -130,7 +131,53 @@ public class CarsCRUDcontroller {
     @FXML
     void readCar(ActionEvent event) {
 
-        
+    String brand = brandTextField.getText().toLowerCase();
+    String model = modelTextField.getText().toLowerCase();
+    String color = colorTextField.getText().toLowerCase();
+    String yearText = yearTextField.getText();
+    String priceText = priceTextFIeld.getText();
+
+    ObservableList<Car> filteredCars = FXCollections.observableArrayList();
+
+    for (Car car : carsList) {
+        boolean matches = true;
+
+        if (!brand.isEmpty() && !car.getBrand().toLowerCase().contains(brand)) {
+            matches = false;
+        }
+        if (!model.isEmpty() && !car.getModel().toLowerCase().contains(model)) {
+            matches = false;
+        }
+        if (!color.isEmpty() && !car.getColor().toLowerCase().contains(color)) {
+            matches = false;
+        }
+        if (!yearText.isEmpty()) {
+            try {
+                int year = Integer.parseInt(yearText);
+                if (car.getYear() != year) {
+                    matches = false;
+                }
+            } catch (NumberFormatException e) {
+                matches = false;
+            }
+        }
+        if (!priceText.isEmpty()) {
+            try {
+                double price = Double.parseDouble(priceText);
+                if (car.getPrice() != price) {
+                    matches = false;
+                }
+            } catch (NumberFormatException e) {
+                matches = false;
+            }
+        }
+
+        if (matches) {
+            filteredCars.add(car);
+        }
+    }
+
+    table.setItems(filteredCars);
 
     }
 
