@@ -1,0 +1,142 @@
+package com.example;
+
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import com.mongodb.client.*;
+import org.bson.Document;
+
+
+
+public class CarsCRUDcontroller {
+
+    @FXML
+    private TableColumn<?, ?> brandColumn;
+
+    @FXML
+    private TextField brandTextField;
+
+    @FXML
+    private TableColumn<?, ?> colorColumn;
+
+    @FXML
+    private TextField colorTextField;
+
+    @FXML
+    private Button deleteBtn;
+
+    @FXML
+    private Button insertBtn;
+
+    @FXML
+    private TableColumn<?, ?> modelColumn;
+
+    @FXML
+    private TextField modelTextField;
+
+    @FXML
+    private TableColumn<?, ?> priceColumn;
+
+    @FXML
+    private TextField priceTextFIeld;
+
+    @FXML
+    private Button readBtn;
+
+    @FXML
+    private TableView<Car> table;
+
+    @FXML
+    private Button updateBtn;
+
+    @FXML
+    private TableColumn<?, ?> yearColumn;
+
+    @FXML
+    private TextField yearTextField;
+
+    private static final String URI = "mongodb+srv://aymen:aymen@java.doab6cu.mongodb.net/?retryWrites=true&w=majority&appName=java";
+    private static final String DATABASE_NAME = "cars";
+    private static final String COLLECTION_NAME = "cars";
+
+    @FXML
+    public void initialize() {
+        brandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
+        modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
+        colorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
+        yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        populateTable();
+
+        table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                brandTextField.setText(newSelection.getBrand());
+                modelTextField.setText(newSelection.getModel());
+                colorTextField.setText(newSelection.getColor());
+                yearTextField.setText(String.valueOf(newSelection.getYear()));
+                priceTextFIeld.setText(String.valueOf(newSelection.getPrice()));
+            }
+        });
+    }
+
+        private void populateTable() {
+        ObservableList<Car> carsList = FXCollections.observableArrayList();
+        
+        try (MongoClient mongoClient = MongoClients.create(URI)) {
+            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+            
+            FindIterable<Document> documents = collection.find();
+            for (Document doc : documents) {
+                Car car = new Car(
+                        doc.getString("brand"),
+                        doc.getString("model"),
+                        doc.getString("color"),
+                        doc.getInteger("year"),
+                        doc.getDouble("price")
+                );
+                carsList.add(car);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        table.setItems(carsList);
+    }
+
+    @FXML
+    void deleteCar(ActionEvent event) {
+
+    }
+
+    @FXML
+    void insertCar(ActionEvent event) {
+
+    }
+
+    @FXML
+    void readCar(ActionEvent event) {
+
+        
+
+    }
+
+    @FXML
+    void updateCar(ActionEvent event) {
+
+    }
+
+}
