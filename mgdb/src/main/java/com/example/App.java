@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -19,6 +20,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("carsCRUD"), 640, 480);
         stage.setTitle("The best cars dealership in town");
+        stage.getIcons().add(new Image(getClass().getResource("/com/example/app_icon.png").toExternalForm()));
         stage.setScene(scene);
         stage.show();
     }
