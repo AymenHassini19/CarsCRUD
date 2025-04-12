@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -19,11 +20,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import com.mongodb.client.*;
 import org.bson.Document;
 
-
-
 public class CarsCRUDcontroller {
 
     ObservableList<Car> carsList = FXCollections.observableArrayList();
+
+    @FXML
+    private CheckBox availableCheck;
 
     @FXML
     private TableColumn<?, ?> brandColumn;
@@ -90,6 +92,7 @@ public class CarsCRUDcontroller {
                 colorTextField.setText(newSelection.getColor());
                 yearTextField.setText(String.valueOf(newSelection.getYear()));
                 priceTextFIeld.setText(String.valueOf(newSelection.getPrice()));
+                availableCheck.setSelected(newSelection.getAvailibility());
             }
         });
     }
@@ -109,7 +112,8 @@ public class CarsCRUDcontroller {
                         doc.getString("model"),
                         doc.getString("color"),
                         doc.getInteger("year"),
-                        doc.getDouble("price")
+                        doc.getDouble("price"),
+                        doc.getBoolean("availibility")
                 );
                 carsList.add(car);
             }
@@ -170,6 +174,7 @@ public class CarsCRUDcontroller {
     String color = colorTextField.getText().trim();
     String yearText = yearTextField.getText().trim();
     String priceText = priceTextFIeld.getText().trim();
+    boolean isAvailable = availableCheck.isSelected();
 
 
     if (brand.isEmpty() || model.isEmpty() || color.isEmpty() || yearText.isEmpty() || priceText.isEmpty()) {
@@ -181,7 +186,7 @@ public class CarsCRUDcontroller {
         int year = Integer.parseInt(yearText);
         double price = Double.parseDouble(priceText);
 
-        Car newCar = new Car(brand, model, color, year, price);
+        Car newCar = new Car(brand, model, color, year, price,isAvailable);
 
         try (MongoClient mongoClient = MongoClients.create(URI)) {
             MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
@@ -191,7 +196,8 @@ public class CarsCRUDcontroller {
                     .append("model", newCar.getModel())
                     .append("color", newCar.getColor())
                     .append("year", newCar.getYear())
-                    .append("price", newCar.getPrice());
+                    .append("price", newCar.getPrice())
+                    .append("availibility" , newCar.getAvailibility());
 
             collection.insertOne(newCarDoc);
             System.out.println("Car inserted successfully!");
@@ -202,6 +208,7 @@ public class CarsCRUDcontroller {
         colorTextField.clear();
         yearTextField.clear();
         priceTextFIeld.clear();
+        availableCheck.setSelected(false);
 
         populateTable();
 
@@ -220,6 +227,7 @@ public class CarsCRUDcontroller {
     String color = colorTextField.getText().toLowerCase();
     String yearText = yearTextField.getText();
     String priceText = priceTextFIeld.getText();
+    boolean isAvailable = availableCheck.isSelected();
 
     ObservableList<Car> filteredCars = FXCollections.observableArrayList();
 
@@ -256,6 +264,10 @@ public class CarsCRUDcontroller {
             }
         }
 
+        if (isAvailable && !car.getAvailibility()) { 
+            matches = false;
+        }
+
         if (matches) {
             filteredCars.add(car);
         }
@@ -277,6 +289,7 @@ public class CarsCRUDcontroller {
         String color = colorTextField.getText().trim();
         String yearText = yearTextField.getText().trim();
         String priceText = priceTextFIeld.getText().trim();
+        boolean isAvailable = availableCheck.isSelected();
 
 
         if (brand.isEmpty() || model.isEmpty() || color.isEmpty() || yearText.isEmpty() || priceText.isEmpty()) {
@@ -290,7 +303,7 @@ public class CarsCRUDcontroller {
             double price = Double.parseDouble(priceText);
 
 
-            Car updatedCar = new Car(brand, model, color, year, price);
+            Car updatedCar = new Car(brand, model, color, year, price, isAvailable);
 
 
             try (MongoClient mongoClient = MongoClients.create(URI)) {
@@ -302,14 +315,16 @@ public class CarsCRUDcontroller {
                         .append("model", selectedCar.getModel())
                         .append("color", selectedCar.getColor())
                         .append("year", selectedCar.getYear())
-                        .append("price", selectedCar.getPrice());
+                        .append("price", selectedCar.getPrice())
+                        .append("availibility", selectedCar.getAvailibility());
 
 
                 Document update = new Document("$set", new Document("brand", updatedCar.getBrand())
                         .append("model", updatedCar.getModel())
                         .append("color", updatedCar.getColor())
                         .append("year", updatedCar.getYear())
-                        .append("price", updatedCar.getPrice()));
+                        .append("price", updatedCar.getPrice())
+                        .append("availibility", updatedCar.getAvailibility()));
 
 
                 collection.updateOne(query, update);
