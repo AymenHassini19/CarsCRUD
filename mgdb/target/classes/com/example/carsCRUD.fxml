@@ -11,10 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.CarsCRUDcontroller">
    <children>
-      <Label text="Welcome to the best cars dealership" textFill="#1d00ae" textOverrun="CLIP">
+      <Label text="CAR INVENTORY MANAGEMENT" textOverrun="CLIP">
          <font>
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
