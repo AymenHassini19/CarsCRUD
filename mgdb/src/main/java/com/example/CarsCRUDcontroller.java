@@ -27,6 +27,12 @@ public class CarsCRUDcontroller {
     @FXML
     private CheckBox availableCheck;
 
+    @FXML
+    private Button logoutBtn;
+
+    @FXML
+    private Button backBtn;
+
     
     @FXML
     private TableColumn<?, ?> availibilityColumn;
@@ -360,6 +366,17 @@ public class CarsCRUDcontroller {
     } else {
         System.out.println("No car selected to update.");
     }
+
+    }
+
+    @FXML
+    void goBack(ActionEvent event) {
+        System.out.println("back button !!!");
+    }
+
+    @FXML
+    void logout(ActionEvent event) {
+        System.out.println("logout button !!!");
 
     }
 

@@ -122,7 +122,7 @@
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="availibility" BorderPane.alignment="CENTER">
+            <Label text="Availibility" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
@@ -179,5 +179,27 @@
             <TableColumn fx:id="availibilityColumn" prefWidth="112.0" text="Availibility" />
         </columns>
       </TableView>
+      <BorderPane prefHeight="68.0" prefWidth="800.0">
+         <left>
+            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#goBack" text="BACK" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets left="30.0" />
+               </BorderPane.margin>
+            </Button>
+         </left>
+         <right>
+            <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" text="LOGOUT" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets right="30.0" />
+               </BorderPane.margin>
+            </Button>
+         </right>
+      </BorderPane>
    </children>
 </VBox>
