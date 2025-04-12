@@ -27,6 +27,13 @@ public class CarsCRUDcontroller {
     @FXML
     private CheckBox availableCheck;
 
+    
+    @FXML
+    private TableColumn<?, ?> availibilityColumn;
+
+    @FXML
+    private TableColumn<?, ?> carIdColumn;
+
     @FXML
     private TableColumn<?, ?> brandColumn;
 
@@ -83,6 +90,11 @@ public class CarsCRUDcontroller {
         colorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        carIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        availibilityColumn.setCellValueFactory(new PropertyValueFactory<>("availibility"));
+        
+        
+        
         populateTable();
 
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -107,7 +119,8 @@ public class CarsCRUDcontroller {
             
             FindIterable<Document> documents = collection.find();
             for (Document doc : documents) {
-                Car car = new Car(
+                String id = doc.getObjectId("_id").toString().substring(doc.getObjectId("_id").toString().length() - 5);
+                Car car = new Car(id,
                         doc.getString("brand"),
                         doc.getString("model"),
                         doc.getString("color"),

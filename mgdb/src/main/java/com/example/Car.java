@@ -1,6 +1,7 @@
 package com.example;
 
 public class Car {
+    String id;
     String brand;
     String model;
     String color;
@@ -16,6 +17,19 @@ public class Car {
         this.price = price;
         this.availibility = availibility;
     }
+
+    public Car(String id , String brand, String model, String color, int year, double price, boolean availibility){
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.color = color;
+        this.year = year;
+        this.price = price;
+        this.availibility = availibility;
+    }
+
+    public String getId() { return id; } 
+    public void setId(String id) { this.id = id; }
 
     public String getBrand() { return brand; }
     public void setBrand(String brand) { this.brand = brand; }
