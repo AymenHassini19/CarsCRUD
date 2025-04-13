@@ -10,6 +10,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
@@ -18,6 +22,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import com.mongodb.client.*;
+
+import java.io.IOException;
+
 import org.bson.Document;
 
 public class CarsCRUDcontroller {
@@ -371,7 +378,14 @@ public class CarsCRUDcontroller {
 
     @FXML
     void goBack(ActionEvent event) {
-        System.out.println("back button !!!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+            Parent newRoot = loader.load();
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            currentScene.setRoot(newRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

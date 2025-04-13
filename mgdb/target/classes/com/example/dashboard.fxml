@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane style="-fx-background-color: #4f4f4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane style="-fx-background-color: #4f4f4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.DashboardController">
    <center>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -25,7 +25,7 @@
             </ImageView>
             <HBox alignment="CENTER" prefHeight="160.0" prefWidth="600.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="inventoryVbox" alignment="CENTER" onMouseClicked="#handleInventoryClick" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -42,7 +42,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="employeesVbox" alignment="CENTER" onMouseClicked="#handleEmployeesClick" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -59,7 +59,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="clientsVbox" alignment="CENTER" onMouseClicked="#handleClientsClick" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -76,7 +76,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="salesVbox" alignment="CENTER" onMouseClicked="#handleSalesClick" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -86,7 +86,7 @@
                               <Insets bottom="20.0" left="30.0" right="30.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label text="inventory" textFill="WHITE">
+                        <Label text="sales" textFill="WHITE">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="19.0" />
                            </font>
@@ -99,12 +99,12 @@
       </VBox>
    </center>
    <bottom>
-      <Button mnemonicParsing="false" text="LOGOUT" BorderPane.alignment="CENTER_LEFT">
+      <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" text="LOGOUT" BorderPane.alignment="CENTER_RIGHT">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
          <BorderPane.margin>
-            <Insets bottom="15.0" left="15.0" />
+            <Insets bottom="15.0" right="15.0" />
          </BorderPane.margin>
       </Button>
    </bottom>
