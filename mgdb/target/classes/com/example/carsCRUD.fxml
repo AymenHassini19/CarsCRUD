@@ -7,21 +7,37 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.CarsCRUDcontroller">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.CarsCRUDcontroller">
    <children>
-      <Label text="CAR INVENTORY MANAGEMENT" textOverrun="CLIP">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="30.0" />
-         </font>
-         <VBox.margin>
-            <Insets bottom="20.0" top="5.0" />
-         </VBox.margin>
-      </Label>
+      <BorderPane prefHeight="82.0" prefWidth="800.0">
+         <right>
+            <Label text="INVENTORY" textOverrun="CLIP" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="30.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets right="15.0" />
+               </BorderPane.margin>
+            </Label>
+         </right>
+         <left>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="15.0" />
+               </BorderPane.margin>
+               <image>
+                  <Image url="@pictures/autotrack.png" />
+               </image>
+            </ImageView>
+         </left>
+      </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
             <Label text="Brand" BorderPane.alignment="CENTER">
