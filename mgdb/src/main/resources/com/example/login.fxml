@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #4f4f4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.LoginController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@pictures/autotrack-light.png" />
+         </image>
+         <VBox.margin>
+            <Insets left="30.0" />
+         </VBox.margin>
+      </ImageView>
+      <Label text="Streamline your dealership operations with our all-in-one management system." textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label text="Manage inventory, sales, and personnel with ease at your fingertips." textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="50.0" />
+         </VBox.margin>
+      </Label>
+      <VBox alignment="CENTER" maxHeight="200.0" maxWidth="400.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #c7c7c7;">
+         <children>
+            <BorderPane prefHeight="38.0" prefWidth="400.0">
+               <left>
+                  <Label text="Email" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="30.0" />
+                     </BorderPane.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </left>
+               <right>
+                  <TextField fx:id="EmailTextField" prefHeight="25.0" prefWidth="226.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="50.0" />
+                     </BorderPane.margin>
+                  </TextField>
+               </right>
+            </BorderPane>
+            <BorderPane prefHeight="36.0" prefWidth="400.0">
+               <right>
+                  <TextField fx:id="PasswordTextField" prefHeight="25.0" prefWidth="226.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="50.0" />
+                     </BorderPane.margin>
+                  </TextField>
+               </right>
+               <left>
+                  <Label text="Password" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="30.0" />
+                     </BorderPane.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </left>
+            </BorderPane>
+            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#login" text="LOGIN">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+            <Label fx:id="errorLabel" text="wrong credentials" textFill="RED">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</VBox>
