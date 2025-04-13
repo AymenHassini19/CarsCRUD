@@ -61,21 +61,21 @@ public class LoginController {
 
             if(employee == null) {
                 // No such employee found.
-                errorLabel.setText("wrong credentials");
+                errorLabel.setText("Email or password is incorrect.");
                 return;
             }
 
             String storedPassword = employee.getString("password");
             if(!storedPassword.equals(password)) {
                 // Password does not match.
-                errorLabel.setText("wrong credentials");
+                errorLabel.setText("Email or password is incorrect.");
                 return;
             }
 
             String department = employee.getString("department");
             if(department == null || !department.equalsIgnoreCase("management")){
                 // Employee exists but is not part of the management department.
-                errorLabel.setText("You do not have the right to login");
+                errorLabel.setText("Only users from the management department can log in.");
                 return;
             }
 

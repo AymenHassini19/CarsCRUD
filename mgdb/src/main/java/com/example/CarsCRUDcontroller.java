@@ -390,7 +390,15 @@ public class CarsCRUDcontroller {
 
     @FXML
     void logout(ActionEvent event) {
-        System.out.println("logout button !!!");
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Parent newRoot = loader.load();
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            currentScene.setRoot(newRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
