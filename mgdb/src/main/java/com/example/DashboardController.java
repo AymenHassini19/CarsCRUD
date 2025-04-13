@@ -47,6 +47,15 @@ public class DashboardController {
     @FXML
     void handleEmployeesClick(MouseEvent event) {
 
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("employeesCRUD.fxml"));
+            Parent newRoot = loader.load();
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            currentScene.setRoot(newRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @FXML

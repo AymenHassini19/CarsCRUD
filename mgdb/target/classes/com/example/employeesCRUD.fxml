@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.CarsCRUDcontroller">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.EmployeesCRUDcontroller">
    <children>
       <BorderPane prefHeight="82.0" prefWidth="800.0">
          <right>
@@ -139,7 +139,7 @@
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="Comission Rate" BorderPane.alignment="CENTER">
+            <Label text="Commission Rate" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
@@ -194,8 +194,13 @@
                         <Font size="14.0" />
                      </font>
                      <HBox.margin>
-                        <Insets />
+                        <Insets right="15.0" />
                      </HBox.margin>
+                  </RadioButton>
+                  <RadioButton fx:id="NoneRadioBtn" mnemonicParsing="false" text="None" toggleGroup="$departmentGroup">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </RadioButton>
                </children>
             </HBox>
