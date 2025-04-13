@@ -82,7 +82,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="errorLabel" text="wrong credentials" textFill="RED">
+            <Label fx:id="errorLabel" textFill="RED">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
