@@ -5,14 +5,14 @@ public class Client extends Person {
     String address;
     String idCard;
 
-    // Constructor without id
+
     public Client(String fname, String lname, String email, String phoneNumber, String address, String idCard) {
         super(fname, lname, email, phoneNumber);
         this.address = address;
         this.idCard = idCard;
     }
 
-    // Constructor with id
+
     public Client(String id, String fname, String lname, String email, String phoneNumber, String address, String idCard) {
         super(id, fname, lname, email, phoneNumber);
         this.address = address;
