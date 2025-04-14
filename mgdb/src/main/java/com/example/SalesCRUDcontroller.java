@@ -146,6 +146,8 @@ public class SalesCRUDcontroller {
         populateClientsList();
         populateSalespersonsList();
 
+
+
         carComboBox.setItems(FXCollections.observableArrayList(carsList));
         salespersonComboBox.setItems(FXCollections.observableArrayList(salespersonsList));
         clientComboBox.setItems(FXCollections.observableArrayList(clientsList));
@@ -269,7 +271,7 @@ public class SalesCRUDcontroller {
 
             FindIterable<Document> documents = collection.find();
             for (Document doc : documents) {
-                // Extract an abbreviated id from the document's ObjectId.
+
                 String id = doc.getObjectId("_id").toString();
                 id = id.substring(id.length() - 5);
 
@@ -302,7 +304,7 @@ public class SalesCRUDcontroller {
 
             FindIterable<Document> documents = collection.find();
             for (Document doc : documents) {
-                // Extract an abbreviated id from the document's ObjectId.
+
                 String id = doc.getObjectId("_id").toString();
                 id = id.substring(id.length() - 5);
 
@@ -319,6 +321,38 @@ public class SalesCRUDcontroller {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void updateCarAvailability(Car car, boolean available) {
+
+        String URI = "mongodb+srv://aymen:aymen@java.doab6cu.mongodb.net/?retryWrites=true&w=majority&appName=java";
+        String DATABASE_NAME = "cars";
+        String COLLECTION_NAME = "cars";
+        
+        
+        String regexPattern = car.getId() + "$";
+
+        
+        Document query = new Document("$expr",
+                new Document("$regexMatch", 
+                        new Document("input", new Document("$toString", "$_id"))
+                                .append("regex", regexPattern)
+                )
+        );
+
+        
+        Document update = new Document("$set", new Document("availibility", available));
+
+        try (MongoClient mongoClient = MongoClients.create(URI)) {
+            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+
+            collection.updateOne(query, update);
+            System.out.println("Car availability updated successfully for id ending with: " + car.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error updating car availability for id ending with: " + car.getId());
         }
     }
 
