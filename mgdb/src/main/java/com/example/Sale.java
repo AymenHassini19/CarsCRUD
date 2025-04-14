@@ -4,7 +4,7 @@ public class Sale {
     String id;
     String carId;
     String clientId;
-    String employeeId;
+    String salespersonId;
     Double fullPrice;
     Double initialDeposit;
     double interestRate;
@@ -14,12 +14,12 @@ public class Sale {
     boolean isFullyPaid;
 
 
-    public Sale(String carId, String clientId, String employeeId, Double fullPrice,
+    public Sale(String carId, String clientId, String salespersonId, Double fullPrice,
                 Double initialDeposit, double interestRate, double monthlyPayment,
                 int leaseDuration, int monthsRemaining, boolean isFullyPaid) {
         this.carId = carId;
         this.clientId = clientId;
-        this.employeeId = employeeId;
+        this.salespersonId = salespersonId;
         this.fullPrice = fullPrice;
         this.initialDeposit = initialDeposit;
         this.interestRate = interestRate;
@@ -30,13 +30,13 @@ public class Sale {
     }
 
 
-    public Sale(String id, String carId, String clientId, String employeeId, Double fullPrice,
+    public Sale(String id, String carId, String clientId, String salespersonId, Double fullPrice,
                 Double initialDeposit, double interestRate, double monthlyPayment,
                 int leaseDuration, int monthsRemaining, boolean isFullyPaid) {
         this.id = id;
         this.carId = carId;
         this.clientId = clientId;
-        this.employeeId = employeeId;
+        this.salespersonId = salespersonId;
         this.fullPrice = fullPrice;
         this.initialDeposit = initialDeposit;
         this.interestRate = interestRate;
@@ -55,8 +55,8 @@ public class Sale {
     public String getClientId() { return clientId; }
     public void setClientId(String clientId) { this.clientId = clientId; }
 
-    public String getEmployeeId() { return employeeId; }
-    public void setEmployeeId(String employeeId) { this.employeeId = employeeId; }
+    public String getSalespersonId() { return salespersonId; }
+    public void setSalespersonId(String salespersonId) { this.salespersonId = salespersonId; }
 
     public Double getFullPrice() { return fullPrice; }
     public void setFullPrice(Double fullPrice) { this.fullPrice = fullPrice; }

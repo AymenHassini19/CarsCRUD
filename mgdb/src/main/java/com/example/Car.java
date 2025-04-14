@@ -49,4 +49,6 @@ public class Car {
     public boolean getAvailibility() {return availibility;}
     public void setAvailibility(boolean availibility) {this.availibility = availibility;}
 
+    public String getFullSpecs(){ return brand+" "+model+" "+color+" "+year;}
+
 }

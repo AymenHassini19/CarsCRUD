@@ -2,10 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ClientsCRUDcontroller">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.SalesCRUDcontroller">
    <children>
       <BorderPane prefHeight="82.0" prefWidth="800.0">
          <right>
-            <Label text="CLIENTS" textOverrun="CLIP" BorderPane.alignment="CENTER">
+            <Label text="SALES" textOverrun="CLIP" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Arial Rounded MT Bold" size="30.0" />
                </font>
@@ -39,7 +42,7 @@
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="First Name" BorderPane.alignment="CENTER">
+            <Label text="Car" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
@@ -49,16 +52,16 @@
             </Label>
          </left>
          <right>
-            <TextField fx:id="fnameTextField" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+            <ComboBox fx:id="carComboBox" prefWidth="150.0" promptText="choose car" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
-            </TextField>
+            </ComboBox>
          </right>
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="Last Name" BorderPane.alignment="CENTER">
+            <Label text="Client" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
@@ -68,16 +71,16 @@
             </Label>
          </left>
          <right>
-            <TextField fx:id="lnameTextField" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+            <ComboBox fx:id="clientComboBox" prefWidth="150.0" promptText="choose client" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
-            </TextField>
+            </ComboBox>
          </right>
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="Email Address" BorderPane.alignment="CENTER">
+            <Label text="Salesperson" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
@@ -87,16 +90,16 @@
             </Label>
          </left>
          <right>
-            <TextField fx:id="emailTextField" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+            <ComboBox fx:id="salespersonComboBox" prefWidth="150.0" promptText="choose salesperson" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
-            </TextField>
+            </ComboBox>
          </right>
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="Phone Number" BorderPane.alignment="CENTER">
+            <Label text="Initial Deposit" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
@@ -106,26 +109,7 @@
             </Label>
          </left>
          <right>
-            <TextField fx:id="phoneTextField" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets right="100.0" />
-               </BorderPane.margin>
-            </TextField>
-         </right>
-      </BorderPane>
-      <BorderPane prefHeight="52.0" prefWidth="600.0">
-         <left>
-            <Label text="Residential Address" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets left="100.0" />
-               </BorderPane.margin>
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-         </left>
-         <right>
-            <TextField fx:id="addressTextFIeld" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+            <TextField fx:id="initialDepositTextFIeld" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
@@ -137,7 +121,7 @@
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="ID Card Number" BorderPane.alignment="CENTER">
+            <Label text="Interest Rate" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
@@ -147,16 +131,96 @@
             </Label>
          </left>
          <right>
-            <TextField fx:id="idCardTextFIeld" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+            <TextField fx:id="interestRateTextFIeld" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
             </TextField>
          </right>
       </BorderPane>
+      <BorderPane prefHeight="52.0" prefWidth="600.0">
+         <left>
+            <Label text="Lease Duration" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="100.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </left>
+         <right>
+            <TextField fx:id="leaseDurationTextFIeld" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="100.0" />
+               </BorderPane.margin>
+            </TextField>
+         </right>
+      </BorderPane>
+      <BorderPane prefHeight="52.0" prefWidth="600.0">
+         <left>
+            <Label text="Months Remaining" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="100.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </left>
+         <right>
+            <TextField fx:id="monthsRemainingTextFIeld" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="100.0" />
+               </BorderPane.margin>
+            </TextField>
+         </right>
+      </BorderPane>
+      <BorderPane prefHeight="52.0" prefWidth="600.0">
+         <left>
+            <Label text="Fully Paid" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="100.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </left>
+         <center>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <RadioButton fx:id="yesRadioButton" mnemonicParsing="false" text="Yes">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="fullyPaidGroup" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="noRadioBtn" mnemonicParsing="false" text="No" toggleGroup="$fullyPaidGroup">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </RadioButton>
+                  <RadioButton fx:id="noneRadioBtn" mnemonicParsing="false" text="None" toggleGroup="$fullyPaidGroup">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </HBox>
+         </center>
+      </BorderPane>
       <HBox alignment="CENTER" prefHeight="76.0" prefWidth="600.0">
          <children>
-            <Button fx:id="readBtn" mnemonicParsing="false" onAction="#readClient" text="Read">
+            <Button fx:id="readBtn" mnemonicParsing="false" onAction="#readSale" text="Read">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
@@ -164,7 +228,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="insertBtn" mnemonicParsing="false" onAction="#insertClient" text="Insert">
+            <Button fx:id="insertBtn" mnemonicParsing="false" onAction="#insertSale" text="Insert">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
@@ -172,7 +236,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="updateBtn" mnemonicParsing="false" onAction="#updateClient" text="Update">
+            <Button fx:id="updateBtn" mnemonicParsing="false" onAction="#updateSale" text="Update">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
@@ -180,7 +244,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteClient" text="Delete">
+            <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteSale" text="Delete">
                <font>
                   <Font size="15.0" />
                </font>
@@ -189,13 +253,17 @@
       </HBox>
       <TableView fx:id="table" prefHeight="200.0">
         <columns>
-            <TableColumn fx:id="clientIdColumn" prefWidth="92.0" text="Client ID" />
-          <TableColumn fx:id="fnameColumn" prefWidth="123.0" text="First Name" />
-          <TableColumn fx:id="lnameColumn" prefWidth="115.0" text="Last Name" />
-            <TableColumn fx:id="emailColumn" prefWidth="162.0" text="Email" />
-            <TableColumn fx:id="phoneColumn" prefWidth="128.0" text="Phone" />
-            <TableColumn fx:id="addressColumn" prefWidth="182.0" text="Address" />
-            <TableColumn fx:id="idCardColumn" prefWidth="97.0" text="ID Card" />
+            <TableColumn fx:id="saleIdColumn" prefWidth="92.0" text="Sale ID" />
+          <TableColumn fx:id="carIdColumn" prefWidth="88.0" text="Car ID" />
+          <TableColumn fx:id="clientIdColumn" prefWidth="87.0" text="Client ID" />
+            <TableColumn fx:id="salespersonIdColumn" prefWidth="100.0" text="Salesperson ID" />
+            <TableColumn fx:id="fullPriceColumn" prefWidth="114.0" text="Full Price" />
+            <TableColumn fx:id="initialDepositColumn" prefWidth="118.0" text="Initial Deposit" />
+            <TableColumn fx:id="interestRateColumn" prefWidth="98.0" text="Interest Rate" />
+            <TableColumn fx:id="monthlyPaymentColumn" prefWidth="90.0" text="Monthly \n Payment" />
+            <TableColumn fx:id="leaseDurationColumn" prefWidth="63.0" text="Lease \n Duration" />
+            <TableColumn fx:id="monthsRemainingColumn" prefWidth="69.0" text="Months \n Remaining" />
+            <TableColumn fx:id="fullyPaidColumn" prefWidth="75.0" text="Fully \n Paid" />
         </columns>
       </TableView>
       <BorderPane prefHeight="68.0" prefWidth="800.0">

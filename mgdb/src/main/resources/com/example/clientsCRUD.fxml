@@ -156,7 +156,7 @@
       </BorderPane>
       <HBox alignment="CENTER" prefHeight="76.0" prefWidth="600.0">
          <children>
-            <Button fx:id="readBtn" mnemonicParsing="false" onAction="#readCar" text="Read">
+            <Button fx:id="readBtn" mnemonicParsing="false" onAction="#readClient" text="Read">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
@@ -164,7 +164,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="insertBtn" mnemonicParsing="false" onAction="#insertCar" text="Insert">
+            <Button fx:id="insertBtn" mnemonicParsing="false" onAction="#insertClient" text="Insert">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
@@ -172,7 +172,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="updateBtn" mnemonicParsing="false" onAction="#updateCar" text="Update">
+            <Button fx:id="updateBtn" mnemonicParsing="false" onAction="#updateClient" text="Update">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
@@ -180,7 +180,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteCar" text="Delete">
+            <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteClient" text="Delete">
                <font>
                   <Font size="15.0" />
                </font>

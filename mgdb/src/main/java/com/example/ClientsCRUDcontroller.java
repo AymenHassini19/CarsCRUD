@@ -150,7 +150,7 @@ public class ClientsCRUDcontroller {
     }
 
     @FXML
-    void insertCar(ActionEvent event) {
+    void insertClient(ActionEvent event) {
         // Retrieve values from the text fields.
         String fname = fnameTextField.getText().trim();
         String lname = lnameTextField.getText().trim();
@@ -191,7 +191,7 @@ public class ClientsCRUDcontroller {
     }
 
     @FXML
-    void updateCar(ActionEvent event) {
+    void updateClient(ActionEvent event) {
         Client selectedClient = table.getSelectionModel().getSelectedItem();
 
         if (selectedClient != null) {
@@ -244,7 +244,7 @@ public class ClientsCRUDcontroller {
     }
 
     @FXML
-    void deleteCar(ActionEvent event) {
+    void deleteClient(ActionEvent event) {
         Client selectedClient = table.getSelectionModel().getSelectedItem();
 
         if (selectedClient != null) {
@@ -275,7 +275,7 @@ public class ClientsCRUDcontroller {
     }
 
     @FXML
-    void readCar(ActionEvent event) {
+    void readClient(ActionEvent event) {
         // Filter criteria from the text fields.
         String fname = fnameTextField.getText().toLowerCase();
         String lname = lnameTextField.getText().toLowerCase();
