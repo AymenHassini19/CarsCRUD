@@ -39,4 +39,9 @@ public class Person {
 
     public String getFullName() { return fname+" "+lname; }
 
+    @Override
+    public String toString() {
+        return getFullName();
+    }
+
 }

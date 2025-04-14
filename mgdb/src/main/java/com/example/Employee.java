@@ -28,5 +28,10 @@ public class Employee extends Person {
     
     public double getCommissionRate() { return commissionRate; } 
     public void setCommissionRate(double commissionRate) { this.commissionRate = commissionRate; }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
     
 }

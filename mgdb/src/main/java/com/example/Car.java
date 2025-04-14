@@ -51,4 +51,9 @@ public class Car {
 
     public String getFullSpecs(){ return brand+" "+model+" "+color+" "+year;}
 
+    @Override
+    public String toString() {
+    return getFullSpecs(); 
+}
+
 }

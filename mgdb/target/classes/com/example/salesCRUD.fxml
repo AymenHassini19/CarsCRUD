@@ -52,7 +52,7 @@
             </Label>
          </left>
          <right>
-            <ComboBox fx:id="carComboBox" prefWidth="150.0" promptText="choose car" BorderPane.alignment="CENTER">
+            <ComboBox fx:id="carComboBox" onAction="#handleCarCombo" prefWidth="150.0" promptText="choose car" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
@@ -71,7 +71,7 @@
             </Label>
          </left>
          <right>
-            <ComboBox fx:id="clientComboBox" prefWidth="150.0" promptText="choose client" BorderPane.alignment="CENTER">
+            <ComboBox fx:id="clientComboBox" onAction="#handleClientCombo" prefWidth="150.0" promptText="choose client" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>
@@ -90,7 +90,7 @@
             </Label>
          </left>
          <right>
-            <ComboBox fx:id="salespersonComboBox" prefWidth="150.0" promptText="choose salesperson" BorderPane.alignment="CENTER">
+            <ComboBox fx:id="salespersonComboBox" onAction="#handleSalespersonCombo" prefWidth="150.0" promptText="choose salesperson" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
                </BorderPane.margin>

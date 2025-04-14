@@ -2,6 +2,7 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 
@@ -40,13 +41,13 @@ public class SalesCRUDcontroller {
     private Button backBtn;
 
     @FXML
-    private ComboBox<?> carComboBox;
+    private ComboBox<Car> carComboBox;
 
     @FXML
     private TableColumn<?, ?> carIdColumn;
 
     @FXML
-    private ComboBox<?> clientComboBox;
+    private ComboBox<Client> clientComboBox;
 
     @FXML
     private TableColumn<?, ?> clientIdColumn;
@@ -112,7 +113,7 @@ public class SalesCRUDcontroller {
     private TableColumn<?, ?> saleIdColumn;
 
     @FXML
-    private ComboBox<?> salespersonComboBox;
+    private ComboBox<Employee> salespersonComboBox;
 
     @FXML
     private TableColumn<?, ?> salespersonIdColumn;
@@ -141,6 +142,15 @@ public class SalesCRUDcontroller {
         fullyPaidColumn.setCellValueFactory(new PropertyValueFactory<>("isFullyPaid"));
 
         populateTable();
+        populateCarsList();
+        populateClientsList();
+        populateSalespersonsList();
+
+        carComboBox.setItems(FXCollections.observableArrayList(carsList));
+        salespersonComboBox.setItems(FXCollections.observableArrayList(salespersonsList));
+        clientComboBox.setItems(FXCollections.observableArrayList(clientsList));
+
+        
     }
 
     private void populateTable() {
@@ -176,6 +186,21 @@ public class SalesCRUDcontroller {
         }
         
         table.setItems(salesList);
+    }
+
+    @FXML
+    void handleCarCombo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleClientCombo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleSalespersonCombo(ActionEvent event) {
+
     }
 
     @FXML
@@ -258,7 +283,7 @@ public class SalesCRUDcontroller {
                         doc.getString("department"),
                         doc.getDouble("commissionRate")
                 );
-                if (emp.getDepartment()=="sales"){
+                if (emp.getDepartment().toLowerCase().contains("sales")){
                 salespersonsList.add(emp);
             }
             }
@@ -290,7 +315,6 @@ public class SalesCRUDcontroller {
                         doc.getString("address"),
                         doc.getString("idCard")
                 );
-                System.out.println(client.getFullName());
                 clientsList.add(client);
             }
         } catch (Exception e) {
