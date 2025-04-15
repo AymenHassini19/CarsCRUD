@@ -85,10 +85,10 @@ public class LoginController {
                 employee.getString("fname"),
                 employee.getString("lname"),
                 employee.getString("email"),
-                employee.getString("phoneNumber"),
+                employee.getString("phone"),
                 employee.getString("password"),
                 employee.getString("department"),
-                employee.getDouble("comissionRate"));
+                employee.getDouble("commissionRate"));
 
 
                 try {

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.SalesCRUDcontroller">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.SalesCRUDcontroller">
    <children>
       <BorderPane prefHeight="82.0" prefWidth="800.0">
          <right>
@@ -259,11 +259,11 @@
             <TableColumn fx:id="salespersonIdColumn" prefWidth="100.0" text="Salesperson ID" />
             <TableColumn fx:id="fullPriceColumn" prefWidth="114.0" text="Full Price" />
             <TableColumn fx:id="initialDepositColumn" prefWidth="118.0" text="Initial Deposit" />
-            <TableColumn fx:id="interestRateColumn" prefWidth="98.0" text="Interest Rate" />
-            <TableColumn fx:id="monthlyPaymentColumn" prefWidth="90.0" text="Monthly \n Payment" />
-            <TableColumn fx:id="leaseDurationColumn" prefWidth="63.0" text="Lease \n Duration" />
-            <TableColumn fx:id="monthsRemainingColumn" prefWidth="69.0" text="Months \n Remaining" />
-            <TableColumn fx:id="fullyPaidColumn" prefWidth="75.0" text="Fully \n Paid" />
+            <TableColumn fx:id="interestRateColumn" prefWidth="86.0" text="Interest Rate" />
+            <TableColumn fx:id="monthlyPaymentColumn" prefWidth="114.0" text="Monthly Payment" />
+            <TableColumn fx:id="leaseDurationColumn" prefWidth="107.0" text="Lease Duration" />
+            <TableColumn fx:id="monthsRemainingColumn" prefWidth="128.0" text="Months Remaining" />
+            <TableColumn fx:id="fullyPaidColumn" prefWidth="65.0" text="Fully Paid" />
         </columns>
       </TableView>
       <BorderPane prefHeight="68.0" prefWidth="800.0">

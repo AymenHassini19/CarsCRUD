@@ -36,11 +36,21 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
-        welcomeLabel.setText("Welcome, "+LoginController.loggedInEmployee.getFullName());
+        if (LoginController.loggedInEmployee != null) {
+            welcomeLabel.setText("Welcome, " + LoginController.loggedInEmployee.getFullName());
+        }
     }
 
     @FXML
     void handleClientsClick(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("clientsCRUD.fxml"));
+            Parent newRoot = loader.load();
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            currentScene.setRoot(newRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -73,6 +83,16 @@ public class DashboardController {
 
     @FXML
     void handleSalesClick(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("salesCRUD.fxml"));
+            Parent newRoot = loader.load();
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(newRoot, 1100, 700));
+            newStage.setTitle("AutoTrack Sales Management");
+            newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

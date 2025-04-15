@@ -61,6 +61,9 @@ public class ClientsCRUDcontroller {
 
     @FXML
     private TextField phoneTextField;
+    
+    @FXML
+    private TextField clientIdTextField;
 
     @FXML
     private TextField addressTextFIeld;
@@ -108,6 +111,7 @@ public class ClientsCRUDcontroller {
         // Add a selection listener to update text fields when a row is selected.
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                clientIdTextField.setText(newSelection.getId());
                 fnameTextField.setText(newSelection.getFname());
                 lnameTextField.setText(newSelection.getLname());
                 emailTextField.setText(newSelection.getEmail());
@@ -277,6 +281,7 @@ public class ClientsCRUDcontroller {
     @FXML
     void readClient(ActionEvent event) {
         // Filter criteria from the text fields.
+        String id = clientIdTextField.getText();
         String fname = fnameTextField.getText().toLowerCase();
         String lname = lnameTextField.getText().toLowerCase();
         String email = emailTextField.getText().toLowerCase();
@@ -288,6 +293,10 @@ public class ClientsCRUDcontroller {
 
         for (Client client : clientList) {
             boolean matches = true;
+
+            if (!id.isEmpty() && !client.getId().toLowerCase().contains(id)) {
+                matches = false;
+            }
 
             if (!fname.isEmpty() && !client.getFname().toLowerCase().contains(fname)) {
                 matches = false;

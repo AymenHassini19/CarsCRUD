@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.CarsCRUDcontroller">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.CarsCRUDcontroller">
    <children>
       <BorderPane prefHeight="82.0" prefWidth="800.0">
          <right>
@@ -205,13 +205,13 @@
       </HBox>
       <TableView fx:id="table" prefHeight="200.0">
         <columns>
-            <TableColumn fx:id="carIdColumn" prefWidth="112.0" text="Car ID" />
-          <TableColumn fx:id="brandColumn" prefWidth="138.0" text="Brand" />
-          <TableColumn fx:id="modelColumn" prefWidth="126.0" text="Model" />
-            <TableColumn fx:id="colorColumn" prefWidth="106.0" text="Color" />
-            <TableColumn fx:id="yearColumn" prefWidth="97.0" text="Year" />
-            <TableColumn fx:id="priceColumn" prefWidth="95.0" text="Price" />
-            <TableColumn fx:id="availibilityColumn" prefWidth="112.0" text="Availibility" />
+            <TableColumn fx:id="carIdColumn" prefWidth="125.0" text="Car ID" />
+          <TableColumn fx:id="brandColumn" prefWidth="141.0" text="Brand" />
+          <TableColumn fx:id="modelColumn" prefWidth="151.0" text="Model" />
+            <TableColumn fx:id="colorColumn" prefWidth="109.0" text="Color" />
+            <TableColumn fx:id="yearColumn" prefWidth="112.0" text="Year" />
+            <TableColumn fx:id="priceColumn" prefWidth="138.0" text="Price" />
+            <TableColumn fx:id="availibilityColumn" prefWidth="123.0" text="Availibility" />
         </columns>
       </TableView>
       <BorderPane prefHeight="68.0" prefWidth="800.0">

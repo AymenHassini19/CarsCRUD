@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ClientsCRUDcontroller">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ClientsCRUDcontroller">
    <children>
       <BorderPane prefHeight="82.0" prefWidth="800.0">
          <right>
@@ -36,6 +36,25 @@
                </image>
             </ImageView>
          </left>
+      </BorderPane>
+      <BorderPane prefHeight="52.0" prefWidth="600.0">
+         <left>
+            <Label text="Client ID" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="100.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </left>
+         <right>
+            <TextField fx:id="clientIdTextField" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="100.0" />
+               </BorderPane.margin>
+            </TextField>
+         </right>
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
