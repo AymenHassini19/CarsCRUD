@@ -41,7 +41,7 @@
       </BorderPane>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
-            <Label text="Client ID" BorderPane.alignment="CENTER">
+            <Label text="Employee ID" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" />
                </BorderPane.margin>
