@@ -51,6 +51,9 @@ public class CarsCRUDcontroller {
     private TableColumn<?, ?> brandColumn;
 
     @FXML
+    private TextField carIdTextField;
+
+    @FXML
     private TextField brandTextField;
 
     @FXML
@@ -112,6 +115,7 @@ public class CarsCRUDcontroller {
 
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                carIdTextField.setText(newSelection.getId());
                 brandTextField.setText(newSelection.getBrand());
                 modelTextField.setText(newSelection.getModel());
                 colorTextField.setText(newSelection.getColor());
@@ -247,7 +251,8 @@ public class CarsCRUDcontroller {
 
     @FXML
     void readCar(ActionEvent event) {
-
+    
+    String id = carIdTextField.getText();
     String brand = brandTextField.getText().toLowerCase();
     String model = modelTextField.getText().toLowerCase();
     String color = colorTextField.getText().toLowerCase();
@@ -259,6 +264,10 @@ public class CarsCRUDcontroller {
 
     for (Car car : carsList) {
         boolean matches = true;
+
+        if (!id.isEmpty() && !car.getId().toLowerCase().contains(id)) {
+            matches = false;
+        }
 
         if (!brand.isEmpty() && !car.getBrand().toLowerCase().contains(brand)) {
             matches = false;
