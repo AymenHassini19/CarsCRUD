@@ -11,7 +11,7 @@ public class Sale {
     double monthlyPayment;
     int leaseDuration;
     int monthsRemaining;
-    boolean isFullyPaid;
+    boolean FullyPaid;
 
 
     public Sale(String carId, String clientId, String salespersonId, Double fullPrice,
@@ -26,7 +26,7 @@ public class Sale {
         this.monthlyPayment = monthlyPayment;
         this.leaseDuration = leaseDuration;
         this.monthsRemaining = monthsRemaining;
-        this.isFullyPaid = isFullyPaid;
+        this.FullyPaid = FullyPaid;
     }
 
 
@@ -43,7 +43,7 @@ public class Sale {
         this.monthlyPayment = monthlyPayment;
         this.leaseDuration = leaseDuration;
         this.monthsRemaining = monthsRemaining;
-        this.isFullyPaid = isFullyPaid;
+        this.FullyPaid = FullyPaid;
     }
 
     public String getId() { return id; }
@@ -76,6 +76,8 @@ public class Sale {
     public int getMonthsRemaining() { return monthsRemaining; }
     public void setMonthsRemaining(int monthsRemaining) { this.monthsRemaining = monthsRemaining; }
 
-    public boolean isFullyPaid() { return isFullyPaid; }
-    public void setFullyPaid(boolean fullyPaid) { isFullyPaid = fullyPaid; }
+    public boolean isFullyPaid() { return FullyPaid; }
+    public void setFullyPaid(boolean FullyPaid) { this.FullyPaid = FullyPaid; }
+
+
 }

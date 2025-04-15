@@ -139,7 +139,7 @@ public class SalesCRUDcontroller {
         monthlyPaymentColumn.setCellValueFactory(new PropertyValueFactory<>("monthlyPayment"));
         leaseDurationColumn.setCellValueFactory(new PropertyValueFactory<>("leaseDuration"));
         monthsRemainingColumn.setCellValueFactory(new PropertyValueFactory<>("monthsRemaining"));
-        fullyPaidColumn.setCellValueFactory(new PropertyValueFactory<>("isFullyPaid"));
+        fullyPaidColumn.setCellValueFactory(new PropertyValueFactory<>("fullyPaid"));
 
         populateTable();
         populateCarsList();
@@ -181,7 +181,6 @@ public class SalesCRUDcontroller {
                         doc.getInteger("monthsRemaining"),
                         doc.getBoolean("isFullyPaid")
                 );
-                salesList.add(sale);
             }
         } catch (Exception e) {
             e.printStackTrace();
