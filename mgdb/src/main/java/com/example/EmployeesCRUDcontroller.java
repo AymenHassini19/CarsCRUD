@@ -71,6 +71,9 @@ public class EmployeesCRUDcontroller {
     private TextField phoneTextField;
 
     @FXML
+    private TextField employeeIdTextField;
+
+    @FXML
     private TextField passwordTextFIeld;
 
     @FXML
@@ -128,6 +131,7 @@ public class EmployeesCRUDcontroller {
         // Add a selection listener to update the text fields and department radio buttons when a row is selected.
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                employeeIdTextField.setText(newSelection.getId());
                 fnameTextField.setText(newSelection.getFname());
                 lnameTextField.setText(newSelection.getLname());
                 emailTextField.setText(newSelection.getEmail());
@@ -352,6 +356,7 @@ public class EmployeesCRUDcontroller {
     @FXML
     void readEmployee(ActionEvent event) {
         // Get filter criteria from the text fields.
+        String id = employeeIdTextField.getText();
         String fname = fnameTextField.getText().toLowerCase();
         String lname = lnameTextField.getText().toLowerCase();
         String email = emailTextField.getText().toLowerCase();
@@ -376,6 +381,10 @@ public class EmployeesCRUDcontroller {
 
         for (Employee emp : employeeList) {
             boolean matches = true;
+
+            if (!id.isEmpty() && !emp.getId().toLowerCase().contains(id)) {
+                matches = false;
+            }
 
             if (!fname.isEmpty() && !emp.getFname().toLowerCase().contains(fname)) {
                 matches = false;

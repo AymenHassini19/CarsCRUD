@@ -51,6 +51,25 @@
             </Label>
          </left>
          <right>
+            <TextField fx:id="employeeIdTextField" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="100.0" />
+               </BorderPane.margin>
+            </TextField>
+         </right>
+      </BorderPane>
+      <BorderPane prefHeight="52.0" prefWidth="600.0">
+         <left>
+            <Label text="First Name" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="100.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </left>
+         <right>
             <TextField fx:id="fnameTextField" prefHeight="25.0" prefWidth="241.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="100.0" />
