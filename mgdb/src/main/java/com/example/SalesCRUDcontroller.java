@@ -181,6 +181,7 @@ public class SalesCRUDcontroller {
                         doc.getInteger("monthsRemaining"),
                         doc.getBoolean("isFullyPaid")
                 );
+                salesList.add(sale);
             }
         } catch (Exception e) {
             e.printStackTrace();
