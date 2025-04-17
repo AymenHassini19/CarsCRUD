@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -36,6 +37,7 @@ public class SalesCRUDcontroller {
 
     private static final String URI = "mongodb+srv://aymen:aymen@java.doab6cu.mongodb.net/?retryWrites=true&w=majority&appName=java";
     private static final String DATABASE_NAME = "cars";
+    private static final String SALES_COLL = "sales";
 
     @FXML
     private Button backBtn;
@@ -152,6 +154,31 @@ public class SalesCRUDcontroller {
         salespersonComboBox.setItems(FXCollections.observableArrayList(salespersonsList));
         clientComboBox.setItems(FXCollections.observableArrayList(clientsList));
 
+        table.getSelectionModel().selectedItemProperty().addListener((o, oldS, sel) -> {
+            if (sel == null) return;
+            // select in ComboBoxes
+            carsList.stream()
+               .filter(c -> c.getId().equals(sel.getCarId()))
+               .findFirst().ifPresent(c -> carComboBox.getSelectionModel().select(c));
+            clientsList.stream()
+               .filter(c -> c.getId().equals(sel.getClientId()))
+               .findFirst().ifPresent(c -> clientComboBox.getSelectionModel().select(c));
+            salespersonsList.stream()
+               .filter(e -> e.getId().equals(sel.getSalespersonId()))
+               .findFirst().ifPresent(e -> salespersonComboBox.getSelectionModel().select(e));
+
+            initialDepositTextFIeld.setText(String.valueOf(sel.getInitialDeposit()));
+            interestRateTextFIeld .setText(String.valueOf(sel.getInterestRate()));
+            leaseDurationTextFIeld .setText(String.valueOf(sel.getLeaseDuration()));
+            monthsRemainingTextFIeld.setText(String.valueOf(sel.getMonthsRemaining()));
+
+            if (sel.isFullyPaid()) {
+                yesRadioButton.setSelected(true);
+            } else {
+                noRadioBtn.setSelected(true);
+            }
+        });
+
         
     }
 
@@ -179,7 +206,7 @@ public class SalesCRUDcontroller {
                         doc.getDouble("monthlyPayment"),
                         doc.getInteger("leaseDuration"),
                         doc.getInteger("monthsRemaining"),
-                        doc.getBoolean("isFullyPaid")
+                        doc.getBoolean("FullyPaid")
                 );
                 salesList.add(sale);
             }
@@ -218,6 +245,61 @@ public class SalesCRUDcontroller {
     @FXML
     void insertSale(ActionEvent event) {
 
+        Car selectedCar         = carComboBox.getValue();
+        Client selectedClient   = clientComboBox.getValue();
+        Employee selectedSalesp = salespersonComboBox.getValue();
+        if (selectedCar==null||selectedClient==null||selectedSalesp==null) {
+            System.out.println("Must select car, client, and salesperson.");
+            return;
+        }
+
+        try {
+            double fullPrice = selectedCar.getPrice();
+            double initDep   = Double.parseDouble(initialDepositTextFIeld.getText());
+            double irate     = Double.parseDouble(interestRateTextFIeld.getText());
+            int    duration  = Integer.parseInt(leaseDurationTextFIeld.getText());
+            int    remaining = Integer.parseInt(monthsRemainingTextFIeld.getText());
+
+            boolean fullyPaid = (remaining == 0);
+
+            double principal = fullPrice - initDep;
+            double monthlyPayment;
+            if (irate == 0) {
+                monthlyPayment = principal / duration;
+            } else {
+                double r = irate/100.0/12.0;
+                monthlyPayment = Math.round((principal * r) / (1 - Math.pow(1+r, -duration)));
+            }
+
+            // build doc
+            Document doc = new Document("carId",   new ObjectId("000000000000000000000000".substring(0, 24 - selectedCar.getId().length()) + selectedCar.getId()))
+                         .append("clientId", new ObjectId("000000000000000000000000".substring(0, 24 - selectedClient.getId().length()) + selectedClient.getId()))
+                         .append("employeeId", new ObjectId("000000000000000000000000".substring(0, 24 - selectedSalesp.getId().length()) + selectedSalesp.getId()))
+                         .append("fullPrice",   fullPrice)
+                         .append("initialDeposit", initDep)
+                         .append("interestRate",   irate)
+                         .append("monthlyPayment", monthlyPayment)
+                         .append("leaseDuration",  duration)
+                         .append("monthsRemaining", remaining)
+                         .append("FullyPaid",    fullyPaid);
+
+            try (MongoClient client = MongoClients.create(URI)) {
+                client.getDatabase(DATABASE_NAME)
+                      .getCollection(SALES_COLL)
+                      .insertOne(doc);
+            }
+
+            // mark this car unavailable
+            updateCarAvailability(selectedCar, false);
+            populateCarsList();
+            carComboBox.setItems(FXCollections.observableArrayList(carsList)); 
+            clearForm();
+            populateTable();
+            System.out.println("Sale inserted.");
+        } catch (NumberFormatException ex) {
+            System.out.println("Numeric fields invalid.");
+        }
+
     }
 
     @FXML
@@ -254,7 +336,8 @@ public class SalesCRUDcontroller {
                         doc.getDouble("price"),
                         doc.getBoolean("availibility")
                 );
-                carsList.add(car);
+                if (car.getAvailibility() == true){
+                carsList.add(car);}
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -355,5 +438,17 @@ public class SalesCRUDcontroller {
             System.out.println("Error updating car availability for id ending with: " + car.getId());
         }
     }
+
+    private void clearForm() {
+        carComboBox.getSelectionModel().clearSelection();
+        clientComboBox.getSelectionModel().clearSelection();
+        salespersonComboBox.getSelectionModel().clearSelection();
+        initialDepositTextFIeld.clear();
+        interestRateTextFIeld.clear();
+        leaseDurationTextFIeld.clear();
+        monthsRemainingTextFIeld.clear();
+        noneRadioBtn.setSelected(true);
+    }
+
 
 }

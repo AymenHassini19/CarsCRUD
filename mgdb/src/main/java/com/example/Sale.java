@@ -16,7 +16,7 @@ public class Sale {
 
     public Sale(String carId, String clientId, String salespersonId, Double fullPrice,
                 Double initialDeposit, double interestRate, double monthlyPayment,
-                int leaseDuration, int monthsRemaining, boolean isFullyPaid) {
+                int leaseDuration, int monthsRemaining, boolean FullyPaid) {
         this.carId = carId;
         this.clientId = clientId;
         this.salespersonId = salespersonId;
@@ -32,7 +32,7 @@ public class Sale {
 
     public Sale(String id, String carId, String clientId, String salespersonId, Double fullPrice,
                 Double initialDeposit, double interestRate, double monthlyPayment,
-                int leaseDuration, int monthsRemaining, boolean isFullyPaid) {
+                int leaseDuration, int monthsRemaining, boolean FullyPaid) {
         this.id = id;
         this.carId = carId;
         this.clientId = clientId;
