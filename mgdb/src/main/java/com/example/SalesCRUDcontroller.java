@@ -344,6 +344,81 @@ public class SalesCRUDcontroller {
 
     @FXML
     void readSale(ActionEvent event) {
+        ObservableList<Sale> filteredSales = FXCollections.observableArrayList();
+
+    String selectedCarId = (carComboBox.getValue() != null) ? carComboBox.getValue().getId() : "";
+    String selectedClientId = (clientComboBox.getValue() != null) ? clientComboBox.getValue().getId() : "";
+    String selectedSalespersonId = (salespersonComboBox.getValue() != null) ? salespersonComboBox.getValue().getId() : "";
+
+    String initialDepositStr = initialDepositTextFIeld.getText().trim();
+    String interestRateStr = interestRateTextFIeld.getText().trim();
+    String leaseDurationStr = leaseDurationTextFIeld.getText().trim();
+    String monthsRemainingStr = monthsRemainingTextFIeld.getText().trim();
+
+    boolean filterFullyPaid = fullyPaidGroup.getSelectedToggle() != null && !noneRadioBtn.isSelected();
+    boolean fullyPaidValue = yesRadioButton.isSelected(); // true if yesRadioButton is selected
+
+    for (Sale sale : salesList) {
+        boolean matches = true;
+
+        if (!selectedCarId.isEmpty() && !sale.getCarId().equals(selectedCarId)) {
+            matches = false;
+        }
+        if (!selectedClientId.isEmpty() && !sale.getClientId().equals(selectedClientId)) {
+            matches = false;
+        }
+        if (!selectedSalespersonId.isEmpty() && !sale.getSalespersonId().equals(selectedSalespersonId)) {
+            matches = false;
+        }
+
+        if (!initialDepositStr.isEmpty()) {
+            try {
+                double val = Double.parseDouble(initialDepositStr);
+                if (sale.getInitialDeposit() != val) matches = false;
+            } catch (NumberFormatException e) {
+                matches = false;
+            }
+        }
+
+        if (!interestRateStr.isEmpty()) {
+            try {
+                double val = Double.parseDouble(interestRateStr);
+                if (sale.getInterestRate() != val) matches = false;
+            } catch (NumberFormatException e) {
+                matches = false;
+            }
+        }
+
+        if (!leaseDurationStr.isEmpty()) {
+            try {
+                int val = Integer.parseInt(leaseDurationStr);
+                if (sale.getLeaseDuration() != val) matches = false;
+            } catch (NumberFormatException e) {
+                matches = false;
+            }
+        }
+
+        if (!monthsRemainingStr.isEmpty()) {
+            try {
+                int val = Integer.parseInt(monthsRemainingStr);
+                if (sale.getMonthsRemaining() != val) matches = false;
+            } catch (NumberFormatException e) {
+                matches = false;
+            }
+        }
+
+        if (filterFullyPaid && sale.isFullyPaid() != fullyPaidValue) {
+            matches = false;
+        }
+
+        if (matches) {
+            filteredSales.add(sale);
+        }
+    }
+
+    table.setItems(filteredSales);
+    clearForm();
+        
     }
 
     @FXML
