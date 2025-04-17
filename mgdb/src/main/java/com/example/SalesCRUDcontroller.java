@@ -253,6 +253,11 @@ public class SalesCRUDcontroller {
             return;
         }
 
+        if (!selectedCar.getAvailibility()) {
+            System.out.println("Selected car is not available for sale.");
+            return;
+        }
+
         try {
             double fullPrice = selectedCar.getPrice();
             double initDep   = Double.parseDouble(initialDepositTextFIeld.getText());
@@ -336,9 +341,9 @@ public class SalesCRUDcontroller {
                         doc.getDouble("price"),
                         doc.getBoolean("availibility")
                 );
-                if (car.getAvailibility() == true){
+
                 carsList.add(car);}
-            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
