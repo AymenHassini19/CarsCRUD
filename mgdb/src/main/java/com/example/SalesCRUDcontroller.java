@@ -235,6 +235,36 @@ public class SalesCRUDcontroller {
     @FXML
     void deleteSale(ActionEvent event) {
 
+        Sale sel = table.getSelectionModel().getSelectedItem();
+        if (sel == null) {
+            System.out.println("No sale to delete.");
+            return;
+        }
+
+        // build query by sale _id
+        String saleId    = sel.getId();
+        String exprRegex = saleId + "$";
+        Document query = new Document("$expr",
+            new Document("$regexMatch", 
+              new Document("input", new Document("$toString","$_id"))
+                     .append("regex", exprRegex)
+            )
+        );
+
+        try (MongoClient client = MongoClients.create(URI)) {
+            client.getDatabase(DATABASE_NAME)
+                  .getCollection(SALES_COLL)
+                  .deleteOne(query);
+        }
+        // release the car
+        carsList.stream()
+            .filter(c -> c.getId().equals(sel.getCarId()))
+            .findFirst().ifPresent(c -> updateCarAvailability(c, true));
+
+        clearForm();
+        populateTable();
+        System.out.println("Sale deleted.");
+
     }
 
     @FXML
