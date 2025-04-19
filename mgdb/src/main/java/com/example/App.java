@@ -18,7 +18,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("salesCRUD"), 1100, 700);
+        scene = new Scene(loadFXML("login"), 900, 700);
         stage.setTitle("AutoTrack dealership management system");
         stage.getIcons().add(new Image(getClass().getResource("/com/example/pictures/icon.png").toExternalForm()));
         stage.setScene(scene);
