@@ -40,6 +40,11 @@
             </ImageView>
          </left>
       </BorderPane>
+      <Label fx:id="errorLabel" textFill="RED">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Label>
       <BorderPane prefHeight="52.0" prefWidth="600.0">
          <left>
             <Label text="Car" BorderPane.alignment="CENTER">
