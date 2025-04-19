@@ -275,7 +275,7 @@ public class SalesCRUDcontroller {
             clearForm();
             populateTable();
             errorLabel.setStyle("-fx-text-fill: green;");
-            errorLabel.setText("Sale deleted.");
+            errorLabel.setText("Sale deleted successfully!");
 
         } catch (NoItemSelectedException e) {
             errorLabel.setStyle("-fx-text-fill: red;");
@@ -354,9 +354,10 @@ public class SalesCRUDcontroller {
             clearForm();
             populateTable();
             errorLabel.setStyle("-fx-text-fill: green;");
-            errorLabel.setText("Sale inserted.");
+            errorLabel.setText("Sale inserted successfully!");
         } catch (NumberFormatException ex) {
-            System.out.println("Numeric fields invalid.");
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Numeric fields invalid.");
         } catch (AllFieldsRequiredException ex) {
             errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setText(ex.getMessage());
@@ -387,7 +388,7 @@ public class SalesCRUDcontroller {
     String monthsRemainingStr = monthsRemainingTextFIeld.getText().trim();
 
     boolean filterFullyPaid = fullyPaidGroup.getSelectedToggle() != null && !noneRadioBtn.isSelected();
-    boolean fullyPaidValue = yesRadioButton.isSelected(); // true if yesRadioButton is selected
+    boolean fullyPaidValue = yesRadioButton.isSelected(); 
 
     for (Sale sale : salesList) {
         boolean matches = true;
@@ -455,14 +456,13 @@ public class SalesCRUDcontroller {
     @FXML
     void updateSale(ActionEvent event) {
         errorLabel.setText("");
-
+        try {
         Sale sel = table.getSelectionModel().getSelectedItem();
         if (sel == null) {
-            System.out.println("No sale selected to update.");
-            return;
+            throw new NoItemSelectedException("sale");
         }
     
-        // 1. Read new form values
+      
         Car newCar       = carComboBox.getValue();
         Client newClient = clientComboBox.getValue();
         Employee newSalesperson = salespersonComboBox.getValue();
@@ -471,16 +471,17 @@ public class SalesCRUDcontroller {
         String durationStr = leaseDurationTextFIeld.getText().trim();
         String remainingStr= monthsRemainingTextFIeld.getText().trim();
     
-        // 2. Validate
+        
         if (newCar == null || newClient == null || newSalesperson == null
             || initDepStr.isEmpty() || irateStr.isEmpty()
             || durationStr.isEmpty() || remainingStr.isEmpty()) {
-            System.out.println("All fields must be filled out.");
-            return;
+            throw new AllFieldsRequiredException();
         }
     
-        try {
-            // 3. Parse and recalc
+        if (!newCar.getId().contains(sel.getCarId()) && !newCar.getAvailibility()) {
+            throw new CarNotAvailableException();
+        }
+         
             double fullPrice      = newCar.getPrice();
             double initDep        = Double.parseDouble(initDepStr);
             double irate          = Double.parseDouble(irateStr);
@@ -527,7 +528,7 @@ public class SalesCRUDcontroller {
                       .updateOne(query, new Document("$set", setFields));
             }
     
-            // 5. If car changed, flip availabilities
+            // If car changed, flip availabilities
             if (!sel.getCarId().equals(newCar.getId())) {
                 // restore old car
                 carsList.stream()
@@ -539,15 +540,26 @@ public class SalesCRUDcontroller {
                 updateCarAvailability(newCar, false);
             }
     
-            // 6. Refresh UI
+            //  Refresh UI
             populateCarsList();
             carComboBox.setItems(FXCollections.observableArrayList(carsList));
             clearForm();
             populateTable();
-            System.out.println("Sale updated successfully!");
+            errorLabel.setStyle("-fx-text-fill: green;");
+            errorLabel.setText("Sale updated successfully!");
     
         } catch (NumberFormatException ex) {
-            System.out.println("Numeric fields invalid.");
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Numeric fields invalid.");
+        } catch (NoItemSelectedException ex) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(ex.getMessage());
+        } catch (AllFieldsRequiredException ex) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(ex.getMessage());
+        } catch (CarNotAvailableException ex) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(ex.getMessage());
         }
 
     }
