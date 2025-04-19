@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import com.example.exception.AllFieldsRequiredException;
+import com.example.exception.CarNotAvailableException;
 import com.example.exception.NoItemSelectedException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -293,21 +295,23 @@ public class SalesCRUDcontroller {
     @FXML
     void insertSale(ActionEvent event) {
         errorLabel.setText("");
-
+        try{
         Car selectedCar         = carComboBox.getValue();
         Client selectedClient   = clientComboBox.getValue();
         Employee selectedSalesp = salespersonComboBox.getValue();
-        if (selectedCar==null||selectedClient==null||selectedSalesp==null) {
-            System.out.println("Must select car, client, and salesperson.");
-            return;
+        if (selectedCar==null||selectedClient==null||selectedSalesp==null||
+            initialDepositTextFIeld.getText().isEmpty()||
+            interestRateTextFIeld.getText().isEmpty()||
+            leaseDurationTextFIeld.getText().isEmpty()||
+            monthsRemainingTextFIeld.getText().isEmpty()) {
+            throw new AllFieldsRequiredException();
         }
 
         if (!selectedCar.getAvailibility()) {
-            System.out.println("Selected car is not available for sale.");
-            return;
+            throw new CarNotAvailableException();
         }
 
-        try {
+        
             double fullPrice = selectedCar.getPrice();
             double initDep   = Double.parseDouble(initialDepositTextFIeld.getText());
             double irate     = Double.parseDouble(interestRateTextFIeld.getText());
@@ -349,9 +353,16 @@ public class SalesCRUDcontroller {
             carComboBox.setItems(FXCollections.observableArrayList(carsList)); 
             clearForm();
             populateTable();
-            System.out.println("Sale inserted.");
+            errorLabel.setStyle("-fx-text-fill: green;");
+            errorLabel.setText("Sale inserted.");
         } catch (NumberFormatException ex) {
             System.out.println("Numeric fields invalid.");
+        } catch (AllFieldsRequiredException ex) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(ex.getMessage());
+        } catch (CarNotAvailableException ex){
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(ex.getMessage());
         }
 
     }
