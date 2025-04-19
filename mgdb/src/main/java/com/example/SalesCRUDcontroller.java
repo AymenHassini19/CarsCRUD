@@ -188,7 +188,7 @@ public class SalesCRUDcontroller {
     }
 
     private void populateTable() {
-        
+        errorLabel.setText("");
         salesList.clear();
         table.getSelectionModel().clearSelection();
         table.getFocusModel().focus(null);
@@ -243,6 +243,7 @@ public class SalesCRUDcontroller {
 
     @FXML
     void deleteSale(ActionEvent event) {
+        errorLabel.setText("");
         try {
             Sale sel = table.getSelectionModel().getSelectedItem();
             if (sel == null) {
@@ -271,10 +272,13 @@ public class SalesCRUDcontroller {
 
             clearForm();
             populateTable();
-            System.out.println("Sale deleted.");
+            errorLabel.setStyle("-fx-text-fill: green;");
+            errorLabel.setText("Sale deleted.");
 
         } catch (NoItemSelectedException e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setText(e.getMessage());
+            
         } catch (Exception e) {
             errorLabel.setText("An error occurred while deleting the sale.");
             e.printStackTrace();
@@ -288,6 +292,7 @@ public class SalesCRUDcontroller {
 
     @FXML
     void insertSale(ActionEvent event) {
+        errorLabel.setText("");
 
         Car selectedCar         = carComboBox.getValue();
         Client selectedClient   = clientComboBox.getValue();
@@ -358,6 +363,7 @@ public class SalesCRUDcontroller {
 
     @FXML
     void readSale(ActionEvent event) {
+        errorLabel.setText("");
         ObservableList<Sale> filteredSales = FXCollections.observableArrayList();
 
     String selectedCarId = (carComboBox.getValue() != null) ? carComboBox.getValue().getId() : "";
@@ -437,6 +443,7 @@ public class SalesCRUDcontroller {
 
     @FXML
     void updateSale(ActionEvent event) {
+        errorLabel.setText("");
 
         Sale sel = table.getSelectionModel().getSelectedItem();
         if (sel == null) {
