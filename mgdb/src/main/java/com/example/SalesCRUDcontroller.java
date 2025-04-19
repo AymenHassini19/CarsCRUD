@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import com.example.exception.NoItemSelectedException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -189,6 +190,10 @@ public class SalesCRUDcontroller {
     private void populateTable() {
         
         salesList.clear();
+        table.getSelectionModel().clearSelection();
+        table.getFocusModel().focus(null);
+
+
         
         try (MongoClient mongoClient = MongoClients.create(URI)) {
             MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
@@ -238,37 +243,42 @@ public class SalesCRUDcontroller {
 
     @FXML
     void deleteSale(ActionEvent event) {
+        try {
+            Sale sel = table.getSelectionModel().getSelectedItem();
+            if (sel == null) {
+                throw new NoItemSelectedException("sale");
+            }
 
-        Sale sel = table.getSelectionModel().getSelectedItem();
-        if (sel == null) {
-            System.out.println("No sale to delete.");
-            return;
+            // build query by sale _id
+            String saleId    = sel.getId();
+            String exprRegex = saleId + "$";
+            Document query = new Document("$expr",
+                new Document("$regexMatch", 
+                    new Document("input", new Document("$toString","$_id"))
+                           .append("regex", exprRegex)
+                )
+            );
+
+            try (MongoClient client = MongoClients.create(URI)) {
+                client.getDatabase(DATABASE_NAME)
+                      .getCollection(SALES_COLL)
+                      .deleteOne(query);
+            }
+            // release the car
+            carsList.stream()
+                .filter(c -> c.getId().equals(sel.getCarId()))
+                .findFirst().ifPresent(c -> updateCarAvailability(c, true));
+
+            clearForm();
+            populateTable();
+            System.out.println("Sale deleted.");
+
+        } catch (NoItemSelectedException e) {
+            errorLabel.setText(e.getMessage());
+        } catch (Exception e) {
+            errorLabel.setText("An error occurred while deleting the sale.");
+            e.printStackTrace();
         }
-
-        // build query by sale _id
-        String saleId    = sel.getId();
-        String exprRegex = saleId + "$";
-        Document query = new Document("$expr",
-            new Document("$regexMatch", 
-              new Document("input", new Document("$toString","$_id"))
-                     .append("regex", exprRegex)
-            )
-        );
-
-        try (MongoClient client = MongoClients.create(URI)) {
-            client.getDatabase(DATABASE_NAME)
-                  .getCollection(SALES_COLL)
-                  .deleteOne(query);
-        }
-        // release the car
-        carsList.stream()
-            .filter(c -> c.getId().equals(sel.getCarId()))
-            .findFirst().ifPresent(c -> updateCarAvailability(c, true));
-
-        clearForm();
-        populateTable();
-        System.out.println("Sale deleted.");
-
     }
 
     @FXML
