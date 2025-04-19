@@ -424,6 +424,100 @@ public class SalesCRUDcontroller {
     @FXML
     void updateSale(ActionEvent event) {
 
+        Sale sel = table.getSelectionModel().getSelectedItem();
+        if (sel == null) {
+            System.out.println("No sale selected to update.");
+            return;
+        }
+    
+        // 1. Read new form values
+        Car newCar       = carComboBox.getValue();
+        Client newClient = clientComboBox.getValue();
+        Employee newSalesperson = salespersonComboBox.getValue();
+        String initDepStr  = initialDepositTextFIeld.getText().trim();
+        String irateStr    = interestRateTextFIeld.getText().trim();
+        String durationStr = leaseDurationTextFIeld.getText().trim();
+        String remainingStr= monthsRemainingTextFIeld.getText().trim();
+    
+        // 2. Validate
+        if (newCar == null || newClient == null || newSalesperson == null
+            || initDepStr.isEmpty() || irateStr.isEmpty()
+            || durationStr.isEmpty() || remainingStr.isEmpty()) {
+            System.out.println("All fields must be filled out.");
+            return;
+        }
+    
+        try {
+            // 3. Parse and recalc
+            double fullPrice      = newCar.getPrice();
+            double initDep        = Double.parseDouble(initDepStr);
+            double irate          = Double.parseDouble(irateStr);
+            int    duration       = Integer.parseInt(durationStr);
+            int    monthsRemaining= Integer.parseInt(remainingStr);
+            boolean fullyPaid     = (monthsRemaining == 0);
+    
+            double principal = fullPrice - initDep;
+            double monthlyPayment;
+            if (irate == 0) {
+                monthlyPayment = principal / duration;
+            } else {
+                double r = irate/100.0/12.0;
+                monthlyPayment = Math.round((principal * r) / (1 - Math.pow(1 + r, -duration)));
+            }
+    
+            // 4. Build MongoDB query & update
+            String regex = sel.getId() + "$";
+            Document query = new Document("$expr",
+                new Document("$regexMatch",
+                    new Document("input", new Document("$toString","$_id"))
+                          .append("regex", regex)
+                )
+            );
+    
+            // helper to build a full 24‑hex ObjectId from the 5‑char suffix
+            java.util.function.Function<String,ObjectId> toOid = suffix ->
+                new ObjectId("000000000000000000000000".substring(0, 24 - suffix.length()) + suffix);
+    
+            Document setFields = new Document("carId",        toOid.apply(newCar.getId()))
+                .append("clientId",   toOid.apply(newClient.getId()))
+                .append("employeeId", toOid.apply(newSalesperson.getId()))
+                .append("fullPrice",      fullPrice)
+                .append("initialDeposit", initDep)
+                .append("interestRate",   irate)
+                .append("monthlyPayment", monthlyPayment)
+                .append("leaseDuration",  duration)
+                .append("monthsRemaining", monthsRemaining)
+                .append("FullyPaid",      fullyPaid);
+    
+            try (MongoClient client = MongoClients.create(URI)) {
+                client.getDatabase(DATABASE_NAME)
+                      .getCollection(SALES_COLL)
+                      .updateOne(query, new Document("$set", setFields));
+            }
+    
+            // 5. If car changed, flip availabilities
+            if (!sel.getCarId().equals(newCar.getId())) {
+                // restore old car
+                carsList.stream()
+                        .filter(c -> c.getId().equals(sel.getCarId()))
+                        .findFirst()
+                        .ifPresent(c -> updateCarAvailability(c, true));
+    
+                // reserve new car
+                updateCarAvailability(newCar, false);
+            }
+    
+            // 6. Refresh UI
+            populateCarsList();
+            carComboBox.setItems(FXCollections.observableArrayList(carsList));
+            clearForm();
+            populateTable();
+            System.out.println("Sale updated successfully!");
+    
+        } catch (NumberFormatException ex) {
+            System.out.println("Numeric fields invalid.");
+        }
+
     }
 
 
