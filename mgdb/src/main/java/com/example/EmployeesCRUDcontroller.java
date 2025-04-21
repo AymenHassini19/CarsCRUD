@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.exception.AllFieldsRequiredException;
+import com.example.exception.NoItemSelectedException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -14,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -90,6 +93,9 @@ public class EmployeesCRUDcontroller {
 
     @FXML
     private RadioButton salesRadioButton;
+
+    @FXML
+    private Label errorLabel;
 
     @FXML
     private Button insertBtn;
@@ -190,6 +196,7 @@ public class EmployeesCRUDcontroller {
 
     @FXML
     void insertEmployee(ActionEvent event) {
+        errorLabel.setText("");
         // Retrieve values from text fields.
         String fname = fnameTextField.getText().trim();
         String lname = lnameTextField.getText().trim();
@@ -210,18 +217,17 @@ public class EmployeesCRUDcontroller {
         } else if (NoneRadioBtn.isSelected()) {
             department = "";
         }
-
+        try {
         // Validate that none of the required fields are empty.
-        // Note: For insertion/update, we expect a valid department (even "none" is valid).
+    
         if (fname.isEmpty() || lname.isEmpty() || email.isEmpty() || phone.isEmpty() ||
                 password.isEmpty() || commissionText.isEmpty() || department.isEmpty()) {
-            System.out.println("All fields must be filled out.");
-            return;
+            throw new AllFieldsRequiredException();
         }
 
-        try {
+        
             double commissionRate = Double.parseDouble(commissionText);
-
+            Integer.parseInt(phone);
             // Create a new Employee object.
             Employee newEmployee = new Employee(fname, lname, email, phone, password, department, commissionRate);
 
@@ -238,20 +244,30 @@ public class EmployeesCRUDcontroller {
                         .append("commissionRate", newEmployee.getCommissionRate());
 
                 collection.insertOne(newEmpDoc);
-                System.out.println("Employee inserted successfully!");
+
+                errorLabel.setStyle("-fx-text-fill: green;");
+                errorLabel.setText("Employee inserted successfully!");
             }
 
             clearFields();
             populateTable();
 
         } catch (NumberFormatException e) {
-            System.out.println("Commission Rate must be a valid number.");
-        }
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Numeric fields invalid.");
+        } catch (AllFieldsRequiredException e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(e.getMessage());
+                }
     }
 
     @FXML
     void updateEmployee(ActionEvent event) {
+        errorLabel.setText("");
+
         Employee selectedEmployee = table.getSelectionModel().getSelectedItem();
+
+        try {
 
         if (selectedEmployee != null) {
             String fname = fnameTextField.getText().trim();
@@ -274,14 +290,16 @@ public class EmployeesCRUDcontroller {
                 department = "";
             }
 
+            
+
             if (fname.isEmpty() || lname.isEmpty() || email.isEmpty() || phone.isEmpty() ||
                     password.isEmpty() || commissionText.isEmpty() || department.isEmpty()) {
-                System.out.println("All fields must be filled out.");
-                return;
+                throw new AllFieldsRequiredException();
             }
 
-            try {
+            
                 double commissionRate = Double.parseDouble(commissionText);
+                Integer.parseInt(phone);
 
                 Employee updatedEmployee = new Employee(fname, lname, email, phone, password, department, commissionRate);
 
@@ -308,23 +326,36 @@ public class EmployeesCRUDcontroller {
                             .append("commissionRate", updatedEmployee.getCommissionRate()));
 
                     collection.updateOne(query, update);
-                    System.out.println("Employee updated successfully!");
+
+
+                    errorLabel.setStyle("-fx-text-fill: green;");
+                    errorLabel.setText("Employee updated successfully!");
 
                     populateTable();
                     clearFields();
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Commission Rate must be a valid number.");
-            }
+            
         } else {
-            System.out.println("No employee selected to update.");
+            throw new NoItemSelectedException("employee");
         }
+    } catch (NumberFormatException e) {
+        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setText("Numeric fields invalid.");
+    } catch (AllFieldsRequiredException e) {
+        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setText(e.getMessage());
+    } catch (NoItemSelectedException e) {
+        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setText(e.getMessage());
+                    }
     }
 
     @FXML
     void deleteEmployee(ActionEvent event) {
-        Employee selectedEmployee = table.getSelectionModel().getSelectedItem();
+        errorLabel.setText("");
 
+        Employee selectedEmployee = table.getSelectionModel().getSelectedItem();
+        try{
         if (selectedEmployee != null) {
             System.out.println("Deleting employee: " + selectedEmployee.getFname() + " " + selectedEmployee.getLname());
 
@@ -341,7 +372,9 @@ public class EmployeesCRUDcontroller {
                         .append("commissionRate", selectedEmployee.getCommissionRate());
 
                 collection.deleteOne(query);
-                System.out.println("Employee deleted successfully!");
+
+                errorLabel.setStyle("-fx-text-fill: green;");
+                errorLabel.setText("Employee deleted successfully!");
 
                 clearFields();
                 populateTable();
@@ -349,12 +382,18 @@ public class EmployeesCRUDcontroller {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("No employee selected to delete.");
+            throw new NoItemSelectedException("employee");
         }
+    } catch(NoItemSelectedException e){
+        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setText(e.getMessage());
+    }
     }
 
     @FXML
     void readEmployee(ActionEvent event) {
+        errorLabel.setText("");
+        
         // Get filter criteria from the text fields.
         String id = employeeIdTextField.getText();
         String fname = fnameTextField.getText().toLowerCase();
@@ -422,6 +461,7 @@ public class EmployeesCRUDcontroller {
         }
 
         table.setItems(filteredEmployees);
+        clearFields();
     }
 
     @FXML
@@ -450,6 +490,7 @@ public class EmployeesCRUDcontroller {
 
     // Helper method to clear all input fields and reset the department selection.
     private void clearFields() {
+        employeeIdTextField.clear();
         fnameTextField.clear();
         lnameTextField.clear();
         emailTextField.clear();
