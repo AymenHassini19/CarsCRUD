@@ -393,7 +393,7 @@ public class CarsCRUDcontroller {
 
         } catch (NumberFormatException e) {
             errorLabel.setStyle("-fx-text-fill: red;");
-            errorLabel.setText("Year or Price must be a valid number.");
+            errorLabel.setText("Numeric fields invalid.");
         } catch (AllFieldsRequiredException e) {
             errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setText(e.getMessage());

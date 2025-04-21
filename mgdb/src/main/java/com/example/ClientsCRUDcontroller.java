@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.exception.AllFieldsRequiredException;
+import com.example.exception.NoItemSelectedException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -14,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,6 +64,9 @@ public class ClientsCRUDcontroller {
 
     @FXML
     private TextField phoneTextField;
+
+    @FXML
+    private Label errorLabel;
     
     @FXML
     private TextField clientIdTextField;
@@ -155,6 +161,7 @@ public class ClientsCRUDcontroller {
 
     @FXML
     void insertClient(ActionEvent event) {
+        errorLabel.setText("");
         // Retrieve values from the text fields.
         String fname = fnameTextField.getText().trim();
         String lname = lnameTextField.getText().trim();
@@ -162,13 +169,15 @@ public class ClientsCRUDcontroller {
         String phone = phoneTextField.getText().trim();
         String address = addressTextFIeld.getText().trim();
         String idCard = idCardTextFIeld.getText().trim();
-
+        try{
         // Validate that all fields are filled.
         if (fname.isEmpty() || lname.isEmpty() || email.isEmpty() || phone.isEmpty() ||
                 address.isEmpty() || idCard.isEmpty()) {
-            System.out.println("All fields must be filled out.");
-            return;
+            throw new AllFieldsRequiredException();
         }
+
+        Integer.parseInt(phone);
+        Integer.parseInt(idCard);
 
         // Create the new Client object.
         Client newClient = new Client(fname, lname, email, phone, address, idCard);
@@ -185,18 +194,31 @@ public class ClientsCRUDcontroller {
                     .append("idCard", newClient.getIdCard());
 
             collection.insertOne(newClientDoc);
-            System.out.println("Client inserted successfully!");
+            errorLabel.setStyle("-fx-text-fill: green;");
+            errorLabel.setText("Client inserted successfully!");
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         clearFields();
         populateTable();
+
+    }catch(AllFieldsRequiredException e){
+        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setText(e.getMessage());
+    }catch(NumberFormatException e) {
+        errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Numeric fields invalid.");
+    }
+
+       
     }
 
     @FXML
     void updateClient(ActionEvent event) {
+        errorLabel.setText("");
         Client selectedClient = table.getSelectionModel().getSelectedItem();
+
+        try{
 
         if (selectedClient != null) {
             String fname = fnameTextField.getText().trim();
@@ -206,11 +228,15 @@ public class ClientsCRUDcontroller {
             String address = addressTextFIeld.getText().trim();
             String idCard = idCardTextFIeld.getText().trim();
 
+            
+
             if (fname.isEmpty() || lname.isEmpty() || email.isEmpty() || phone.isEmpty() ||
                     address.isEmpty() || idCard.isEmpty()) {
-                System.out.println("All fields must be filled out.");
-                return;
+                throw new AllFieldsRequiredException();
             }
+
+            Integer.parseInt(phone);
+            Integer.parseInt(idCard);
 
             Client updatedClient = new Client(fname, lname, email, phone, address, idCard);
 
@@ -235,7 +261,8 @@ public class ClientsCRUDcontroller {
                         .append("idCard", updatedClient.getIdCard()));
 
                 collection.updateOne(query, update);
-                System.out.println("Client updated successfully!");
+                errorLabel.setStyle("-fx-text-fill: green;");
+                errorLabel.setText("Client updated successfully!");
 
                 populateTable();
                 clearFields();
@@ -243,14 +270,25 @@ public class ClientsCRUDcontroller {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("No client selected to update.");
+            throw new NoItemSelectedException("client");
+        }
+        } catch(AllFieldsRequiredException e){
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(e.getMessage());
+        } catch (NoItemSelectedException e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(e.getMessage());
+        } catch(NumberFormatException e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Numeric fields invalid.");
         }
     }
 
     @FXML
     void deleteClient(ActionEvent event) {
+        errorLabel.setText("");
         Client selectedClient = table.getSelectionModel().getSelectedItem();
-
+        try{
         if (selectedClient != null) {
             System.out.println("Deleting client: " + selectedClient.getFname() + " " + selectedClient.getLname());
 
@@ -266,7 +304,9 @@ public class ClientsCRUDcontroller {
                         .append("idCard", selectedClient.getIdCard());
 
                 collection.deleteOne(query);
-                System.out.println("Client deleted successfully!");
+            
+                errorLabel.setStyle("-fx-text-fill: green;");
+                errorLabel.setText("Client deleted successfully!");
 
                 clearFields();
                 populateTable();
@@ -274,12 +314,17 @@ public class ClientsCRUDcontroller {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("No client selected to delete.");
+            throw new NoItemSelectedException("client");
         }
+        } catch (NoItemSelectedException e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(e.getMessage());
+        } 
     }
 
     @FXML
     void readClient(ActionEvent event) {
+        errorLabel.setText("");
         // Filter criteria from the text fields.
         String id = clientIdTextField.getText();
         String fname = fnameTextField.getText().toLowerCase();
@@ -322,6 +367,7 @@ public class ClientsCRUDcontroller {
         }
 
         table.setItems(filteredClients);
+        clearFields();
     }
 
     @FXML
@@ -350,6 +396,7 @@ public class ClientsCRUDcontroller {
 
     // Helper method to clear all input fields.
     private void clearFields() {
+        clientIdTextField.clear();
         fnameTextField.clear();
         lnameTextField.clear();
         emailTextField.clear();
