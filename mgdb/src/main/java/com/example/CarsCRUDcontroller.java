@@ -16,11 +16,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import com.example.exception.AllFieldsRequiredException;
+import com.example.exception.NoItemSelectedException;
 import com.mongodb.client.*;
 
 import java.io.IOException;
@@ -39,6 +42,9 @@ public class CarsCRUDcontroller {
 
     @FXML
     private Button backBtn;
+
+    @FXML
+    private Label errorLabel;
 
     
     @FXML
@@ -156,6 +162,7 @@ public class CarsCRUDcontroller {
 
     @FXML
     void deleteCar(ActionEvent event) {
+        errorLabel.setText("");
 
     Car selectedCar = table.getSelectionModel().getSelectedItem();
     
@@ -176,14 +183,11 @@ public class CarsCRUDcontroller {
 
 
             collection.deleteOne(query);
-            System.out.println("Car deleted successfully!");
 
+            errorLabel.setStyle("-fx-text-fill: green;");
+            errorLabel.setText("Car deleted successfully!");
 
-            brandTextField.clear();
-            modelTextField.clear();
-            colorTextField.clear();
-            yearTextField.clear();
-            priceTextFIeld.clear();
+            clearFields();
 
             populateTable();
 
@@ -191,13 +195,19 @@ public class CarsCRUDcontroller {
             e.printStackTrace();
         }
     } else {
-        System.out.println("No car selected to delete.");
+        try{
+            throw new NoItemSelectedException("car");
+        } catch (NoItemSelectedException e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(e.getMessage());
+        }
     }
 
     }
 
     @FXML
     void insertCar(ActionEvent event) {
+        errorLabel.setText("");
 
     String brand = brandTextField.getText().trim();
     String model = modelTextField.getText().trim();
@@ -205,14 +215,14 @@ public class CarsCRUDcontroller {
     String yearText = yearTextField.getText().trim();
     String priceText = priceTextFIeld.getText().trim();
     boolean isAvailable = availableCheck.isSelected();
-
+    
+    try {
 
     if (brand.isEmpty() || model.isEmpty() || color.isEmpty() || yearText.isEmpty() || priceText.isEmpty()) {
-        System.out.println("All fields must be filled out.");
-        return;
+        throw new AllFieldsRequiredException();
     }
 
-    try {
+    
         int year = Integer.parseInt(yearText);
         double price = Double.parseDouble(priceText);
 
@@ -230,27 +240,27 @@ public class CarsCRUDcontroller {
                     .append("availibility" , newCar.getAvailibility());
 
             collection.insertOne(newCarDoc);
-            System.out.println("Car inserted successfully!");
+            errorLabel.setStyle("-fx-text-fill: green;");
+            errorLabel.setText("Car inserted successfully!");
         }
 
-        brandTextField.clear();
-        modelTextField.clear();
-        colorTextField.clear();
-        yearTextField.clear();
-        priceTextFIeld.clear();
-        availableCheck.setSelected(false);
+        clearFields();
 
         populateTable();
 
-    } catch (NumberFormatException e) {
-
-        System.out.println("Year or Price must be a valid number.");
-    }
+    } catch (AllFieldsRequiredException e) {
+        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setText(e.getMessage());
+        } catch (NumberFormatException e) {
+        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.setText("Year or Price must be a valid number.");
+    } 
 
     }
 
     @FXML
     void readCar(ActionEvent event) {
+        errorLabel.setText("");
     
     String id = carIdTextField.getText();
     String brand = brandTextField.getText().toLowerCase();
@@ -286,6 +296,8 @@ public class CarsCRUDcontroller {
                 }
             } catch (NumberFormatException e) {
                 matches = false;
+                errorLabel.setStyle("-fx-text-fill: red;");
+                errorLabel.setText("Year or Price must be a valid number.");
             }
         }
         if (!priceText.isEmpty()) {
@@ -296,6 +308,8 @@ public class CarsCRUDcontroller {
                 }
             } catch (NumberFormatException e) {
                 matches = false;
+                errorLabel.setStyle("-fx-text-fill: red;");
+                errorLabel.setText("Year or Price must be a valid number.");
             }
         }
 
@@ -309,11 +323,13 @@ public class CarsCRUDcontroller {
     }
 
     table.setItems(filteredCars);
+    clearFields();
 
     }
 
     @FXML
     void updateCar(ActionEvent event) {
+        errorLabel.setText("");
 
     Car selectedCar = table.getSelectionModel().getSelectedItem();
     
@@ -326,13 +342,12 @@ public class CarsCRUDcontroller {
         String priceText = priceTextFIeld.getText().trim();
         boolean isAvailable = availableCheck.isSelected();
 
-
+        try {
         if (brand.isEmpty() || model.isEmpty() || color.isEmpty() || yearText.isEmpty() || priceText.isEmpty()) {
-            System.out.println("All fields must be filled out.");
-            return;
+            throw new AllFieldsRequiredException();
         }
 
-        try {
+        
 
             int year = Integer.parseInt(yearText);
             double price = Double.parseDouble(priceText);
@@ -377,10 +392,19 @@ public class CarsCRUDcontroller {
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Year or Price must be a valid number.");
-        }
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Year or Price must be a valid number.");
+        } catch (AllFieldsRequiredException e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(e.getMessage());
+                }
     } else {
-        System.out.println("No car selected to update.");
+        try{
+        throw new NoItemSelectedException("car");
+        } catch (NoItemSelectedException e){
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText(e.getMessage());
+        }
     }
 
     }
@@ -410,5 +434,13 @@ public class CarsCRUDcontroller {
         }
 
     }
-
+    private void clearFields() {
+        carIdTextField.clear();
+        brandTextField.clear();
+        modelTextField.clear();
+        colorTextField.clear();
+        yearTextField.clear();
+        priceTextFIeld.clear();
+        availableCheck.setSelected(false);
+    }
 }
