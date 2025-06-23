@@ -10,17 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #4f4f4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.LoginController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #F58A4E;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.LoginController">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="165.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@pictures/autotrack-light.png" />
+            <Image url="@pictures/best.png" />
          </image>
          <VBox.margin>
             <Insets left="30.0" />
          </VBox.margin>
       </ImageView>
-      <Label text="Streamline your dealership operations with our all-in-one management system." textFill="WHITE" wrapText="true">
+      <Label text="Streamline your leasing operations with our all-in-one management system." textFill="WHITE" wrapText="true">
          <font>
             <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
