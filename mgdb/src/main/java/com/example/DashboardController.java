@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -88,7 +89,9 @@ public class DashboardController {
             Parent newRoot = loader.load();
             Stage newStage = new Stage();
             newStage.setScene(new Scene(newRoot, 1100, 700));
-            newStage.setTitle("AutoTrack Sales Management");
+            newStage.setTitle("Best Lease sales Management");
+            newStage.getIcons().add(new Image(getClass().getResource("/com/example/pictures/icon.png").toExternalForm()));
+
             newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
