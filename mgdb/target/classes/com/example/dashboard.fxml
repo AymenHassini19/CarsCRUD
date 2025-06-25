@@ -16,7 +16,7 @@
          <children>
             <ImageView fitHeight="146.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@pictures/best.png" />
+                  <Image url="@pictures/best-white.png" />
                </image>
                <VBox.margin>
                   <Insets left="30.0" />
